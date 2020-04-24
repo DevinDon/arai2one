@@ -1,1 +1,9 @@
-<p>list works!</p>
+<div class="window">
+
+  <button mat-button (click)="getActiveList()">Get list {{ status }}</button>
+
+  <mat-list *ngIf="items">
+    <mat-list-item *ngFor="let item of items">{{ item }}</mat-list-item>
+  </mat-list>
+
+</div>
