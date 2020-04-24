@@ -16,6 +16,6 @@ export const routes: Route[] = [
   },
   {
     path: 'list',
-    loadChildren: () => import('../../page/list/list.component').then(m => m.ListComponent)
+    loadChildren: () => import('../../page/list/list.module').then(m => m.ListModule)
   }
 ];

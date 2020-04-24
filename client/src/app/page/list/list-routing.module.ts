@@ -1,8 +1,17 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
+import { ListComponent } from './list.component';
 
-
-const routes: Routes = [];
+const routes: Routes = [
+  {
+    path: '',
+    component: ListComponent,
+    data: {
+      reload: false,
+      title: 'More Demos'
+    }
+  }
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
