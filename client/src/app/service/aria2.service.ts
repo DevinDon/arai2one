@@ -18,4 +18,8 @@ export class Aria2Service {
     });
   }
 
+  connect() {
+    return this.client.connect();
+  }
+
 }

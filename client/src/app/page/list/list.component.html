@@ -2,8 +2,8 @@
 
   <button mat-button (click)="getActiveList()">Get list {{ status }}</button>
 
-  <mat-list *ngIf="items">
-    <mat-list-item *ngFor="let item of items">{{ item }}</mat-list-item>
+  <mat-list *ngIf="tasks">
+    <mat-list-item *ngFor="let task of tasks">{{ task | json }}</mat-list-item>
   </mat-list>
 
 </div>

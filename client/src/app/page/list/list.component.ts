@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Aria2, Task } from '@iinfinity/aria2';
+import { Aria2Service } from 'src/app/service/aria2.service';
 
 @Component({
   selector: 'app-list',
@@ -7,35 +9,31 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ListComponent implements OnInit {
 
-  // private client: Aria2;
+  private client: Aria2;
 
-  items: string[];
+  tasks: Task[];
 
   status?: boolean;
 
-  constructor() {
+  constructor(
+    private aria2: Aria2Service
+  ) {
     console.log('Create list component.');
-    this.client = new Aria2({
-      host: '192.168.0.241',
-      port: 6800,
-      secure: false,
-      secret: 'SECRET',
-      path: '/jsonrpc'
-    });
+    this.client = aria2.client;
   }
 
   ngOnInit(): void {
-    this.client.open()
+    this.aria2.connect()
       .then(v => this.status = true)
-      .catch(e => this.status = false);
+      .catch(e => {
+        console.error(e);
+        this.status = false;
+      });
+    console.log('What');
   }
 
-  getActiveList() {
-    this.client.call('tellActive')
-      .then(v => {
-        this.items = v;
-        console.log(this.items);
-      });
+  async getActiveList() {
+    this.tasks = await this.client.tellStopped(0, 10);
   }
 
 }
