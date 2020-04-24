@@ -12,18 +12,10 @@ export const routes: Route[] = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'about'
+    redirectTo: 'list'
   },
   {
-    path: 'about',
-    loadChildren: () => import('../../page/about/about.module').then(m => m.AboutModule)
-  },
-  {
-    path: 'more',
-    loadChildren: () => import('../../page/more/more.module').then(m => m.MoreModule)
-  },
-  {
-    path: 'upload',
-    loadChildren: () => import('../../page/upload/upload.module').then(m => m.UploadModule)
+    path: 'list',
+    loadChildren: () => import('../../page/list/list.component').then(m => m.ListComponent)
   }
 ];
