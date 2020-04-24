@@ -1,1 +1,1 @@
-docker stack rm app-template
+docker stack rm aria2one

@@ -6,9 +6,9 @@ Web 应用项目模板, 前端 [Angular](https://angular.io) + 后端 [Rester](h
 
 # Demo
 
-See [Angular 8 + Rester](https://demo.don.red/app-template) online demo.
+See [Angular 8 + Rester](https://demo.don.red/aria2one) online demo.
 
-<del>See [Angular 6 + Koa](https://devindon.github.io/app-template) online demo.</del>
+<del>See [Angular 6 + Koa](https://devindon.github.io/aria2one) online demo.</del>
 
 # Feature
 
@@ -39,7 +39,7 @@ See [Angular 8 + Rester](https://demo.don.red/app-template) online demo.
 }
 ```
 
-*See [tool.js](https://github.com/DevinDon/app-template/blob/master/tool.js) for more detail.*
+*See [tool.js](https://github.com/DevinDon/aria2one/blob/master/tool.js) for more detail.*
 
 ## Build & Pack
 

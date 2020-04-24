@@ -3,7 +3,7 @@ version: '3.7'
 services:
 
   # # PostgreSQL, backend ,expose 5432
-  # app-template-database:
+  # aria2one-database:
   #   image: postgres
   #   environment:
   #     POSTGRES_USER: application
@@ -12,21 +12,21 @@ services:
   #   networks:
   #     - overnet
   #   volumes:
-  #     - "app-template-database:/var/lib/postgresql/data"
+  #     - "aria2one-database:/var/lib/postgresql/data"
   #   #   - ./config/postgresql:/etc/postgresql:ro
 
   # # Redis, backend, expose 6379
-  # app-template-redis:
+  # aria2one-redis:
   #   image: redis
-  #   container_name: app-template-redis
+  #   container_name: aria2one-redis
   #   networks:
   #     - backend
   #   # volumes:
   #   #   - ./config/redis:/etc/redis:ro
 
   # KBS, frontend & backend, expose 8080 - 8082
-  app-template-server:
-    image: app-template-server
+  aria2one-server:
+    image: aria2one-server
     deploy:
       mode: replicated
       replicas: 1
@@ -38,10 +38,10 @@ services:
     networks:
       - overnet
     volumes:
-      - "app-template-database:/db:rw"
+      - "aria2one-database:/db:rw"
 
   # Nginx, frontend & backend & hostnet, ports 80 & 443 & 13306(dev) & 16379(dev)
-  app-template-client:
+  aria2one-client:
     image: iinfinity/nginx
     deploy:
       mode: replicated
@@ -70,5 +70,5 @@ networks:
     name: overnet
 
 volumes:
-  app-template-database:
-  # app-template-server:
+  aria2one-database:
+  # aria2one-server:

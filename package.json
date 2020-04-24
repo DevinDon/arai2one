@@ -1,5 +1,5 @@
 {
-  "name": "app-template",
+  "name": "aria2one",
   "version": "0.0.0",
   "private": true,
   "directories": {
@@ -31,12 +31,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/DevinDon/app-template.git"
+    "url": "git+https://github.com/DevinDon/aria2one.git"
   },
   "bugs": {
-    "url": "https://github.com/DevinDon/app-template/issues"
+    "url": "https://github.com/DevinDon/aria2one/issues"
   },
-  "homepage": "https://github.com/DevinDon/app-template#readme",
+  "homepage": "https://github.com/DevinDon/aria2one#readme",
   "dependencies": {},
   "devDependencies": {
     "gulp": "^4.0.0",

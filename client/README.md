@@ -417,7 +417,7 @@ And then, generate about component.
   <p class="desc">{{ desc }}</p>
 
   <div class="link">
-    <a mat-button href="https://github.com/DevinDon/app-template" target="_blank">
+    <a mat-button href="https://github.com/DevinDon/aria2one" target="_blank">
       <mat-icon class="ri-github-line"></mat-icon><span class="name">GitHub</span>
     </a>
     <a mat-button href="https://angular.io" target="_blank">
