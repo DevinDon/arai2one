@@ -1,0 +1,42 @@
+<!-- src/app/page/about/about.component.html -->
+
+<div class="window">
+
+  <!-- <h1 class="title" [@title]="animation.title.state" (@title.done)="animation.title.callback()">{{ app.title }}</h1> -->
+  <div class="head">
+    <h1 class="title">{{ title }}</h1>
+    <p class="desc">{{ desc }}</p>
+  </div>
+
+  <div class="link">
+    <a mat-button href="https://angular.io" target="_blank">
+      <i class="ri-angularjs-line x-large "></i>
+      <span class="text">Angular</span>
+    </a>
+    <a mat-button href="https://github.com/DevinDon/app-template" target="_blank">
+      <i class="ri-github-line x-large"></i>
+      <span class="text">GitHub</span>
+    </a>
+    <a mat-button href="https://github.com/DevinDon/rester" target="_blank">
+      <i class="ri-server-line x-large"></i>
+      <span class="text">Rester</span>
+    </a>
+  </div>
+
+  <button mat-raised-button color="primary" [routerLink]="[ '/more' ]">
+    <i class="ri-arrow-down-line x-large"></i>
+    <span class="text">Find More Demos</span>
+  </button>
+
+  <button mat-button class="version">
+    <ng-container *ngIf="version; else defaultTemplate">
+      <span class="type">{{ version.type }}</span><span class="split"> & </span>
+      <span class="major">{{ version.major }}</span>.<span class="minor">{{ version.minor }}</span>.<span
+        class="patch">{{ version.patch }}</span>
+    </ng-container>
+    <ng-template #defaultTemplate>
+      <span class="status">Loading...</span>
+    </ng-template>
+  </button>
+
+</div>
