@@ -1,0 +1,15 @@
+// src/app/page/more/more.component.scss
+
+.window {
+  padding: 1.5rem;
+
+  .mat-grid-tile {
+    overflow: visible;
+    max-width: 400px;
+  }
+  .mat-card {
+    cursor: pointer;
+    width: 100%;
+    min-height: 80%;
+  }
+}

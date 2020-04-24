@@ -1,0 +1,9 @@
+*build
+*dist
+*out
+*node_modules
+*.vscode
+*package-lock.json
+*.db
+*.log
+*.firebase

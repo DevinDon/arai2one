@@ -1,0 +1,74 @@
+version: '3.7'
+
+services:
+
+  # # PostgreSQL, backend ,expose 5432
+  # app-template-database:
+  #   image: postgres
+  #   environment:
+  #     POSTGRES_USER: application
+  #     POSTGRES_PASSWORD: application
+  #     POSTGRES_DB: application
+  #   networks:
+  #     - overnet
+  #   volumes:
+  #     - "app-template-database:/var/lib/postgresql/data"
+  #   #   - ./config/postgresql:/etc/postgresql:ro
+
+  # # Redis, backend, expose 6379
+  # app-template-redis:
+  #   image: redis
+  #   container_name: app-template-redis
+  #   networks:
+  #     - backend
+  #   # volumes:
+  #   #   - ./config/redis:/etc/redis:ro
+
+  # KBS, frontend & backend, expose 8080 - 8082
+  app-template-server:
+    image: app-template-server
+    deploy:
+      mode: replicated
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 5
+        window: 10s
+    networks:
+      - overnet
+    volumes:
+      - "app-template-database:/db:rw"
+
+  # Nginx, frontend & backend & hostnet, ports 80 & 443 & 13306(dev) & 16379(dev)
+  app-template-client:
+    image: iinfinity/nginx
+    deploy:
+      mode: replicated
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 5
+        window: 10s
+    networks:
+      - overnet
+    # ports:
+      # - "80:80"
+      # - "443:443"
+      # - "13306:3306"
+      # - "15432:5432"
+      # - "16379:6379"
+    volumes:
+      - "./etc/nginx/http.d:/etc/nginx/http.d:ro"
+      - "./etc/nginx/stream.d:/etc/nginx/stream.d:ro"
+      - "./client:/app:ro"
+
+networks:
+  overnet:
+    external: true
+    name: overnet
+
+volumes:
+  app-template-database:
+  # app-template-server:

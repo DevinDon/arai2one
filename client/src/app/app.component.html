@@ -1,0 +1,14 @@
+<!-- src/app/app.component.html -->
+
+<mat-toolbar color="primary">
+  <button mat-icon-button [matTooltip]="navigation.tip" [routerLink]="navigation.link">
+    <i class="{{ navigation.icon }} x-large"></i>
+  </button>
+  <span class="title">{{ title }}</span>
+</mat-toolbar>
+
+<div id="wave"></div>
+
+<section class="outlet">
+  <router-outlet></router-outlet>
+</section>

@@ -1,0 +1,47 @@
+{
+  "name": "app-template",
+  "version": "0.0.0",
+  "private": true,
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "build": "npm run build:client && npm run build:server",
+    "build:client": "cd client && npm run build",
+    "build:server": "cd server && npm run build",
+    "clean": "node tool clean",
+    "install": "npm run install:client && npm run install:server",
+    "install:client": "cd client && npm i",
+    "install:server": "cd server && npm i",
+    "pack": "npm run build && npm run pack:only",
+    "pack:demo": "cd client && npm run build:demo && cd .. && npm run build:server && npm run pack:only",
+    "pack:only": "node tool pack",
+    "start": "sh dist/stop.sh & git pull && npm i && npm run pack && cd dist && sh start.sh",
+    "update": "npm up --dev && npm run update:client && npm run update:server",
+    "update:client": "cd client && npm run update",
+    "update:server": "cd server && npm run update"
+  },
+  "keywords": [
+    "server",
+    "client",
+    "typescript",
+    "docker"
+  ],
+  "author": "IInfinity <I.INF@Outlook.com> (https://blog.don.red/)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DevinDon/app-template.git"
+  },
+  "bugs": {
+    "url": "https://github.com/DevinDon/app-template/issues"
+  },
+  "homepage": "https://github.com/DevinDon/app-template#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "gulp": "^4.0.0",
+    "gulp-clean": "^0.4.0",
+    "gulp-concat": "^2.6.1"
+  },
+  "optionalDependencies": {}
+}
