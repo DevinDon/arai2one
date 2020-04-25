@@ -8,7 +8,12 @@ const routes: Routes = [
     component: ListComponent,
     data: {
       reload: false,
-      title: 'More Demos'
+      title: '任务列表',
+      navigation: {
+        icon: 'ri-list-check-2',
+        link: ['/'],
+        tip: '任务列表'
+      }
     }
   }
 ];
