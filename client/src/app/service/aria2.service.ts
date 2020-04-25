@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Aria2, Option } from '@iinfinity/aria2';
+import { timer } from 'rxjs';
 import { fromPromise } from 'rxjs/observable/fromPromise';
-import { interval } from 'rxjs/observable/interval';
 import { map, share, switchMap } from 'rxjs/operators';
 
 @Injectable({
@@ -25,7 +25,7 @@ export class Aria2Service {
   }
 
   syncActive() {
-    return interval(1500)
+    return timer(0, 1500)
       .pipe(
         switchMap(_ => fromPromise(this.client.tellActive())),
         map(tasks => tasks.filter(task => task.files[0]?.path)),
@@ -34,7 +34,7 @@ export class Aria2Service {
   }
 
   syncWaiting(offset = 0, total = 100) {
-    return interval(1500)
+    return timer(0, 1500)
       .pipe(
         switchMap(_ => fromPromise(this.client.tellWaiting(offset, total))),
         map(tasks => tasks.filter(task => task.files[0]?.path)),
@@ -43,7 +43,7 @@ export class Aria2Service {
   }
 
   syncStopped(offset = 0, total = 100) {
-    return interval(1500)
+    return timer(0, 1500)
       .pipe(
         switchMap(_ => fromPromise(this.client.tellStopped(offset, total))),
         map(tasks => tasks.filter(task => task.files[0]?.path)),
