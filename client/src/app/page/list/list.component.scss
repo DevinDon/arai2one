@@ -1,35 +1,25 @@
-// src/app/page/upload/upload.component.scss
+.mat-button-toggle-group {
+  width: 80%;
+  align-self: center;
+  .mat-button-toggle {
+    flex-grow: 1;
+  }
+}
 
-.window {
-  padding: 1.5rem;
-
-  > .content {
-    margin: -1.5rem;
-
-    .mat-button-toggle-group {
-      width: 80%;
-      align-self: center;
-      .mat-button-toggle {
-        flex-grow: 1;
-      }
+mat-nav-list {
+  > mat-list-item {
+    mat-progress-bar {
+      height: 1rem;
     }
-
-    mat-nav-list {
-      > mat-list-item {
-        mat-progress-bar {
-          height: 1rem;
-        }
-        .mat-line.info {
-          display: flex;
-          flex-direction: row;
-          justify-content: space-between;
-          > span {
-            width: 8rem;
-            &.size,
-            &.speed {
-              text-align: right;
-            }
-          }
+    .mat-line.info {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      > span {
+        width: 8rem;
+        &.size,
+        &.speed {
+          text-align: right;
         }
       }
     }

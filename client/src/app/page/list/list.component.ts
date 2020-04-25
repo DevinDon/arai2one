@@ -14,6 +14,9 @@ export class ListComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = [];
 
   tasks: Task[];
+  activeTasks: Task[];
+  stoppedTasks: Task[];
+  waitingTasks: Task[];
 
   status?: boolean;
 
@@ -23,7 +26,21 @@ export class ListComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.aria2.connect()
-      .then(v => this.status = true)
+      .then(v => {
+        this.status = true;
+        this.subscriptions.push(
+          this.aria2.syncActive()
+            .subscribe(tasks => this.activeTasks = tasks)
+        );
+        this.subscriptions.push(
+          this.aria2.syncStopped()
+            .subscribe(tasks => this.stoppedTasks = tasks)
+        );
+        this.subscriptions.push(
+          this.aria2.syncWaiting()
+            .subscribe(tasks => this.waitingTasks = tasks)
+        );
+      })
       .catch(e => {
         console.error(e);
         this.status = false;
@@ -34,9 +51,10 @@ export class ListComponent implements OnInit, OnDestroy {
     return task.gid;
   }
 
-  sync(type: 'active' | 'stopped' | 'waiting') {
+  sync(type: 1 | 2 | 3 | 'active' | 'stopped' | 'waiting') {
     destory(this.subscriptions);
     switch (type) {
+      case 1:
       case 'active': {
         this.subscriptions.push(
           this.aria2.syncActive()
@@ -44,6 +62,7 @@ export class ListComponent implements OnInit, OnDestroy {
         );
         break;
       }
+      case 2:
       case 'stopped': {
         this.subscriptions.push(
           this.aria2.syncStopped()
@@ -51,6 +70,7 @@ export class ListComponent implements OnInit, OnDestroy {
         );
         break;
       }
+      case 3:
       case 'waiting': {
         this.subscriptions.push(
           this.aria2.syncWaiting()
@@ -63,6 +83,10 @@ export class ListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     destory(this.subscriptions);
+  }
+
+  testEvent(event) {
+    console.log(event);
   }
 
 }
