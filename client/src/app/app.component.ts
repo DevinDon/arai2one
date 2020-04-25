@@ -4,7 +4,9 @@ import { Component, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Navigation } from './module/routing/routes';
 import { AppService } from './service/app.service';
+import { Aria2Service } from './service/aria2.service';
 import { destory } from './util/subscription';
+import { catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -19,7 +21,8 @@ export class AppComponent implements OnDestroy {
   private subscriptions: Subscription[] = [];
 
   constructor(
-    public app: AppService
+    public app: AppService,
+    private aria2: Aria2Service
   ) {
     this.subscriptions.push(
       app.observableRouterData()
@@ -28,6 +31,8 @@ export class AppComponent implements OnDestroy {
           this.navigation = data.navigation || { icon: 'ri-home-3-line', link: ['/'], tip: 'Home' };
         })
     );
+    this.aria2.connect()
+      .subscribe();
   }
 
   ngOnDestroy(): void {

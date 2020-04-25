@@ -10,26 +10,16 @@
   </button>
 </mat-toolbar>
 
-<div class="toolbar">
-  <button mat-raised-button color="primary">
-    <mat-icon>add</mat-icon>
-  </button>
-  <button mat-raised-button color="primary">
-    <mat-icon>sort_by_alpha</mat-icon>
-  </button>
-  <button mat-raised-button color="primary">
-    <mat-icon>select_all</mat-icon>
-  </button>
-  <button mat-raised-button color="primary">
-    <mat-icon>play_arrow</mat-icon>
-  </button>
-  <button mat-raised-button color="primary">
-    <mat-icon>pause</mat-icon>
-  </button>
-</div>
-
 <div id="wave"></div>
 
 <section class="outlet">
   <router-outlet></router-outlet>
 </section>
+
+<div class="statusbar">
+  <span class="state">已连接</span>
+  <div class="speed">
+    <span class="upload">上传</span>
+    <span class="download">下载</span>
+  </div>
+</div>

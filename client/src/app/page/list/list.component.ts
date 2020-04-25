@@ -25,26 +25,18 @@ export class ListComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.aria2.connect()
-      .then(v => {
-        this.status = true;
-        this.subscriptions.push(
-          this.aria2.syncActive()
-            .subscribe(tasks => this.activeTasks = tasks)
-        );
-        this.subscriptions.push(
-          this.aria2.syncStopped()
-            .subscribe(tasks => this.stoppedTasks = tasks)
-        );
-        this.subscriptions.push(
-          this.aria2.syncWaiting()
-            .subscribe(tasks => this.waitingTasks = tasks)
-        );
-      })
-      .catch(e => {
-        console.error(e);
-        this.status = false;
-      });
+    this.subscriptions.push(
+      this.aria2.syncActive()
+        .subscribe(tasks => this.activeTasks = tasks)
+    );
+    this.subscriptions.push(
+      this.aria2.syncStopped()
+        .subscribe(tasks => this.stoppedTasks = tasks)
+    );
+    this.subscriptions.push(
+      this.aria2.syncWaiting()
+        .subscribe(tasks => this.waitingTasks = tasks)
+    );
   }
 
   trackByGID(index: number, task: Task): string {

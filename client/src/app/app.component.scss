@@ -13,16 +13,23 @@
     z-index: 1;
   }
 
-  .toolbar {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    width: 100%;
-  }
-
   > .outlet {
     flex-grow: 1;
     width: 100vw;
+  }
+
+  .statusbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    position: fixed;
+    bottom: 0;
+    width: calc(100vw - 2rem);
+    height: 2rem;
+    padding: 0.5rem 1rem;
+    background-color: white;
+    font-size: small;
+    color: gray;
   }
 }
 

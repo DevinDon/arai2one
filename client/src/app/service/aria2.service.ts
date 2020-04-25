@@ -13,7 +13,7 @@ export class Aria2Service {
 
   constructor() { }
 
-  async connect(option: Option = {
+  connect(option: Option = {
     host: '192.168.0.241',
     port: 6800,
     path: '/jsonrpc',
@@ -21,7 +21,7 @@ export class Aria2Service {
     secret: 'SECRET'
   }) {
     this.client = new Aria2(option);
-    return this.client.connect();
+    return fromPromise(this.client.connect());
   }
 
   syncActive() {
