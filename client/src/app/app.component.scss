@@ -13,6 +13,13 @@
     z-index: 1;
   }
 
+  .toolbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+  }
+
   > .outlet {
     flex-grow: 1;
     width: 100vw;
