@@ -3,9 +3,9 @@
   <h2>连接状态：{{ status }}</h2>
 
   <div class="content">
-    <button mat-button (click)="getAllTasks()">进行中的任务</button>
-    <mat-nav-list *ngIf="tasks">
-      <mat-list-item *ngFor="let task of tasks">
+    <button mat-button>进行中的任务</button>
+    <mat-nav-list *ngIf="activeTasks">
+      <mat-list-item *ngFor="let task of activeTasks">
         <!-- <img mat-list-avatar src="/assets/icon-test.png" /> -->
         <!-- <mat-icon matListAvatar>chat</mat-icon> -->
         <p mat-line>{{ task.files[0].path.slice(task.dir.length + 1) }}</p>
