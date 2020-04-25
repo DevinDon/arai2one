@@ -1,7 +1,7 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Aria2, Task } from '@iinfinity/aria2';
-import { Aria2Service } from 'src/app/service/aria2.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Task } from '@iinfinity/aria2';
 import { Subscription } from 'rxjs';
+import { Aria2Service } from 'src/app/service/aria2.service';
 import { destory } from 'src/app/util/subscription';
 
 @Component({
@@ -83,10 +83,6 @@ export class ListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     destory(this.subscriptions);
-  }
-
-  testEvent(event) {
-    console.log(event);
   }
 
 }
