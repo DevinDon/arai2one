@@ -7,6 +7,7 @@
 }
 
 mat-nav-list {
+  height: calc(100vh - 5rem - 48px);
   > mat-list-item {
     mat-progress-bar {
       height: 1rem;
