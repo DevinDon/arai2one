@@ -1,13 +1,38 @@
+// src/app/page/upload/upload.component.scss
+
 .window {
   padding: 1.5rem;
 
-  .mat-grid-tile {
-    overflow: visible;
-    max-width: 400px;
+  > .content {
+    margin: -1.5rem;
   }
-  .mat-card {
-    cursor: pointer;
-    width: 100%;
-    min-height: 80%;
+
+  mat-nav-list {
+    > mat-list-item {
+      mat-progress-bar {
+        height: 1rem;
+        // &.paused {
+        //   background-color: yellow;
+        // }
+        // &.complete {
+        //   background-color: green;
+        // }
+        // &.error {
+        //   background-color: red;
+        // }
+      }
+      .mat-line.info {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        > span {
+          width: 8rem;
+          &.size,
+          &.speed {
+            text-align: right;
+          }
+        }
+      }
+    }
   }
 }

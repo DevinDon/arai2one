@@ -12,6 +12,9 @@ export class ListComponent implements OnInit {
   private client: Aria2;
 
   tasks: Task[];
+  activeTasks: Task[];
+  waitingTasks: Task[];
+  stoppendTasks: Task[];
 
   status?: boolean;
 
@@ -29,11 +32,30 @@ export class ListComponent implements OnInit {
         console.error(e);
         this.status = false;
       });
-    console.log('What');
   }
 
-  async getActiveList() {
-    this.tasks = await this.client.tellStopped(0, 10);
+  async getActiveTasks() {
+    this.activeTasks = await this.client.tellActive();
+    console.log(this.activeTasks);
+    return this.activeTasks;
+  }
+
+  async getWaitingTasks(offset = 0, total = 10) {
+    this.waitingTasks = await this.client.tellWaiting(offset, total);
+    console.log(this.waitingTasks);
+    return this.waitingTasks;
+  }
+
+  async getAllTasks(offset = 0, total = 10) {
+    this.activeTasks = await this.client.tellActive();
+    this.waitingTasks = await this.client.tellWaiting(offset, total);
+    this.stoppendTasks = await this.client.tellStopped(offset, total);
+    this.tasks = ([] as Task[]).concat(this.activeTasks)
+      .concat(this.waitingTasks)
+      .concat(this.stoppendTasks)
+      .filter(task => task.files[0]?.path);
+    console.log(this.tasks);
+    return this.tasks;
   }
 
 }
