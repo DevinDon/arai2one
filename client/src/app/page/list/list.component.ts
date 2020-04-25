@@ -1,20 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Aria2, Task } from '@iinfinity/aria2';
 import { Aria2Service } from 'src/app/service/aria2.service';
+import { Subscription } from 'rxjs';
+import { destory } from 'src/app/util/subscription';
 
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss']
 })
-export class ListComponent implements OnInit {
+export class ListComponent implements OnInit, OnDestroy {
 
-  test: number = 0;
+  private subscriptions: Subscription[] = [];
 
   tasks: Task[];
-  activeTasks: Task[];
-  waitingTasks: Task[];
-  stoppedTasks: Task[];
 
   status?: boolean;
 
@@ -22,45 +21,48 @@ export class ListComponent implements OnInit {
     private aria2: Aria2Service
   ) { }
 
-  async ngOnInit() {
-    await this.aria2.connect()
-      .then(v => {
-        this.status = true;
-        this.aria2.syncActive()
-          .subscribe(tasks => this.activeTasks = tasks);
-        this.aria2.syncStopped()
-          .subscribe(tasks => this.stoppedTasks = tasks);
-        this.aria2.syncWaiting()
-          .subscribe(tasks => this.waitingTasks = tasks);
-      })
+  ngOnInit() {
+    this.aria2.connect()
+      .then(v => this.status = true)
       .catch(e => {
         console.error(e);
         this.status = false;
       });
   }
 
-  // async getActiveTasks() {
-  //   this.activeTasks = await this.client.tellActive();
-  //   console.log(this.activeTasks);
-  //   return this.activeTasks;
-  // }
+  trackByGID(index: number, task: Task): string {
+    return task.gid;
+  }
 
-  // async getWaitingTasks(offset = 0, total = 10) {
-  //   this.waitingTasks = await this.client.tellWaiting(offset, total);
-  //   console.log(this.waitingTasks);
-  //   return this.waitingTasks;
-  // }
+  sync(type: 'active' | 'stopped' | 'waiting') {
+    destory(this.subscriptions);
+    switch (type) {
+      case 'active': {
+        this.subscriptions.push(
+          this.aria2.syncActive()
+            .subscribe(tasks => this.tasks = tasks)
+        );
+        break;
+      }
+      case 'stopped': {
+        this.subscriptions.push(
+          this.aria2.syncStopped()
+            .subscribe(tasks => this.tasks = tasks)
+        );
+        break;
+      }
+      case 'waiting': {
+        this.subscriptions.push(
+          this.aria2.syncWaiting()
+            .subscribe(tasks => this.tasks = tasks)
+        );
+        break;
+      }
+    }
+  }
 
-  // async getAllTasks(offset = 0, total = 10) {
-  //   this.activeTasks = await this.client.tellActive();
-  //   this.waitingTasks = await this.client.tellWaiting(offset, total);
-  //   this.stoppendTasks = await this.client.tellStopped(offset, total);
-  //   this.tasks = ([] as Task[]).concat(this.activeTasks)
-  //     .concat(this.waitingTasks)
-  //     .concat(this.stoppendTasks)
-  //     .filter(task => task.files[0]?.path);
-  //   console.log(this.tasks);
-  //   return this.tasks;
-  // }
+  ngOnDestroy(): void {
+    destory(this.subscriptions);
+  }
 
 }

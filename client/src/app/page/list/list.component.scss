@@ -5,31 +5,30 @@
 
   > .content {
     margin: -1.5rem;
-  }
 
-  mat-nav-list {
-    > mat-list-item {
-      mat-progress-bar {
-        height: 1rem;
-        // &.paused {
-        //   background-color: yellow;
-        // }
-        // &.complete {
-        //   background-color: green;
-        // }
-        // &.error {
-        //   background-color: red;
-        // }
+    .mat-button-toggle-group {
+      width: 80%;
+      align-self: center;
+      .mat-button-toggle {
+        flex-grow: 1;
       }
-      .mat-line.info {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        > span {
-          width: 8rem;
-          &.size,
-          &.speed {
-            text-align: right;
+    }
+
+    mat-nav-list {
+      > mat-list-item {
+        mat-progress-bar {
+          height: 1rem;
+        }
+        .mat-line.info {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          > span {
+            width: 8rem;
+            &.size,
+            &.speed {
+              text-align: right;
+            }
           }
         }
       }

@@ -3,11 +3,19 @@
   <h2>连接状态：{{ status }}</h2>
 
   <div class="content">
-    <button mat-button>进行中的任务</button>
-    <mat-nav-list *ngIf="activeTasks">
-      <mat-list-item *ngFor="let task of activeTasks">
-        <!-- <img mat-list-avatar src="/assets/icon-test.png" /> -->
-        <!-- <mat-icon matListAvatar>chat</mat-icon> -->
+    <!-- <button mat-button (click)="sync('active')">下载中</button>
+    <button mat-button (click)="sync('waiting')">已暂停</button>
+    <button mat-button (click)="sync('stopped')">已结束</button> -->
+
+    <mat-button-toggle-group (change)="sync($event.value)" color="primary">
+      <mat-button-toggle value="active" [checked]="true">下载中</mat-button-toggle>
+      <mat-button-toggle value="waiting">已暂停</mat-button-toggle>
+      <mat-button-toggle value="stopped">已结束</mat-button-toggle>
+    </mat-button-toggle-group>
+
+    <mat-nav-list *ngIf="tasks; else noTaskTemplate">
+      <mat-list-item *ngFor="let task of tasks; trackBy:trackByGID">
+        <img mat-list-avatar src="/assets/icon-test.png" />
         <p mat-line>{{ task.files[0].path.slice(task.dir.length + 1) }}</p>
         <mat-progress-bar mat-line [mode]="task.status === 'active' ? 'buffer' : 'determinate'"
           [color]="(task.status === 'paused' && 'accent') || (task.status === 'error' && 'warn')"
@@ -30,6 +38,10 @@
           </button> -->
       </mat-list-item>
     </mat-nav-list>
+    <ng-template #noTaskTemplate>
+      <p>没有任务</p>
+    </ng-template>
+
   </div>
 
 </div>
