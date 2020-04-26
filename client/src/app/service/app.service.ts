@@ -18,8 +18,8 @@ interface Subjections {
 }
 
 export const APP = {
-  name: 'Template',
-  published: '2020-03-15 22:00:00'
+  name: 'Aria2One',
+  published: '2020-04-26 22:00:00'
 };
 
 @Injectable({
