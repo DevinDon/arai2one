@@ -15,7 +15,7 @@
 // have to load a single css file for Angular Material in your app.
 // Be sure that you only ever include this mixin once!
 $custom-typography: mat-typography-config(
-  $font-family: '"Fira Code","Consolas",  "Roboto",  "Helvetica Neue",  sans-serif'
+  $font-family: '"Fira Code","Consolas",  "Roboto",  "Helvetica Neue",  sans-serif',
 );
 @include mat-core($custom-typography);
 
@@ -99,7 +99,7 @@ body {
 }
 
 ::-webkit-scrollbar {
-  width: 2px;
+  width: 0px !important;
 }
 
 ::-webkit-scrollbar-thumb:vertical {
