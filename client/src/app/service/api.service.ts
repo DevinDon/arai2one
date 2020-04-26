@@ -22,7 +22,7 @@ export class ApiService {
 
   private dev: Environment = {
     protocol: 'http',
-    host: 'localhost',
+    host: '192.168.0.241',
     port: 8080,
     full: ''
   };
