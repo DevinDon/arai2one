@@ -33,6 +33,8 @@
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close [routerLink]="[ '/search' ]">搜索</button>
+  <span style="flex-grow: 1;"></span>
   <button mat-button color="primary" [disabled]="form.invalid">添加</button>
   <button mat-button mat-dialog-close color="warn">取消</button>
 </mat-dialog-actions>
