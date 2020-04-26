@@ -25,7 +25,7 @@
     <span>{{ (state === undefined && '连接中') || (state === true && '已连接') || (state === false && '未连接') }}</span>
   </div>
   <div class="speed">
-    <span class="upload">上传</span>
-    <span class="download">下载</span>
+    <i class="ri-arrow-up-down-line"></i>
+    <span>{{ (downloadSpeed + uploadSpeed) / 1000 | number:'1.0-0' }} KB/s</span>
   </div>
 </div>

@@ -14,11 +14,14 @@ import { destory } from './util/subscription';
 })
 export class AppComponent implements OnDestroy {
 
+  private subscriptions: Subscription[] = [];
+  private activeTasksSubscription: Subscription;
+
   title = 'Template';
   navigation: Navigation = { icon: 'ri-home-3-line', link: ['/'], tip: 'Home' };
   state?: boolean;
-
-  private subscriptions: Subscription[] = [];
+  downloadSpeed = 0;
+  uploadSpeed = 0;
 
   constructor(
     public app: AppService,
@@ -37,8 +40,25 @@ export class AppComponent implements OnDestroy {
   connect() {
     this.subscriptions.push(
       this.aria2.connect()
-        .subscribe(state => this.state = state)
+        .subscribe(state => this.state = state),
     );
+    this.aria2.observableClient()
+      .subscribe(state => {
+        if (state) {
+          if (this.activeTasksSubscription) {
+            destory([this.activeTasksSubscription]);
+          }
+          this.activeTasksSubscription = this.aria2.syncActive()
+            .subscribe(tasks => {
+              this.downloadSpeed = 0;
+              this.uploadSpeed = 0;
+              for (const task of tasks) {
+                this.downloadSpeed += +task.downloadSpeed;
+                this.uploadSpeed += +task.uploadSpeed;
+              }
+            });
+        }
+      });
   }
 
   ngOnDestroy(): void {
