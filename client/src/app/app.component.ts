@@ -31,11 +31,14 @@ export class AppComponent implements OnDestroy {
           this.navigation = data.navigation || { icon: 'ri-home-3-line', link: ['/'], tip: 'Home' };
         })
     );
+    this.connect();
   }
 
-  test() {
-    this.aria2.connect()
-      .subscribe(state => this.state = state);
+  connect() {
+    this.subscriptions.push(
+      this.aria2.connect()
+        .subscribe(state => this.state = state)
+    );
   }
 
   ngOnDestroy(): void {
