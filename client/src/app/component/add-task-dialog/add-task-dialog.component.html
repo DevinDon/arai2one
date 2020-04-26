@@ -3,7 +3,7 @@
 <mat-dialog-content>
   <form [formGroup]="form">
     <mat-form-field appearance="outline">
-      <input matInput formControlName="name" autocomplete="off">
+      <input matInput formControlName="name" autocomplete="off" placeholder="留空将自动获取">
       <mat-label>
         <i class="ri-file-line"></i> <span class="text">文件名</span>
       </mat-label>
@@ -18,7 +18,7 @@
         </mat-error> -->
     </mat-form-field>
     <mat-form-field appearance="outline">
-      <textarea matInput formControlName="uri" rows="7"></textarea>
+      <textarea matInput formControlName="uri" rows="7" placeholder="支持 http、https、ftp、ftps 等协议"></textarea>
       <mat-label>
         <i class="ri-links-line"></i> <span class="text">下载地址</span>
       </mat-label>
