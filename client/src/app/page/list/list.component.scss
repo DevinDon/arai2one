@@ -43,3 +43,37 @@ mat-nav-list {
     color: gray;
   }
 }
+
+.statusbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  bottom: 0;
+  width: calc(100vw - 2rem);
+  height: 2rem;
+  padding: 0.5rem 1rem;
+  background-color: white;
+  font-size: small;
+  color: gray;
+  z-index: 1;
+  box-shadow: 0 -10px 20px rgba(0, 0, 0, 0.05);
+  > .state {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    color: gray;
+    &.true {
+      color: darkolivegreen;
+    }
+    &.false {
+      color: red;
+    }
+  }
+  > .speed {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+}

@@ -75,6 +75,18 @@
 
 </mat-tab-group>
 
+<div class="statusbar">
+  <div class="state {{ state }}">
+    <i
+      class="{{ (state === undefined && 'ri-loader-2-line') || (state === true && 'ri-check-line') || (state === false && 'ri-close-line') }}"></i>
+    <span>{{ (state === undefined && '连接中') || (state === true && '已连接') || (state === false && '未连接') }}</span>
+  </div>
+  <div class="speed">
+    <i class="ri-arrow-up-down-line"></i>
+    <span>{{ (downloadSpeed + uploadSpeed) / 1000 | number:'1.0-0' }} KB/s</span>
+  </div>
+</div>
+
 <ng-template #noTaskTemplate>
   <div class="notask content">
     <p class="desc">暂无下载任务</p>
