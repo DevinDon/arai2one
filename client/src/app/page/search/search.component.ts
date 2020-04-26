@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { SearchResult } from '@iinfinity/movie-crawler';
 import { CrawlerService } from 'src/app/service/crawler.service';
 
 @Component({
@@ -10,7 +9,7 @@ import { CrawlerService } from 'src/app/service/crawler.service';
 export class SearchComponent implements OnInit {
 
   keyword = '';
-  movies: SearchResult[] = [];
+  movies: { title: string; url: string; }[] = [];
 
   constructor(
     private crawler: CrawlerService
