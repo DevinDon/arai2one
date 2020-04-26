@@ -27,7 +27,6 @@ export class ListComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.aria2.observableClient()
       .subscribe(state => {
-        console.log(state);
         destory(this.subscriptions)
         if (state) {
           this.subscriptions.push(
