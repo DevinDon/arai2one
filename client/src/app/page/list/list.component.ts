@@ -42,6 +42,36 @@ export class ListComponent implements OnInit, OnDestroy {
       });
   }
 
+  sync(type: 1 | 2 | 3 | 'active' | 'stopped' | 'waiting') {
+    destory(this.subscriptions);
+    switch (type) {
+      case 1:
+      case 'active': {
+        this.subscriptions.push(
+          this.aria2.syncActive()
+            .subscribe(tasks => this.activeTasks = tasks)
+        );
+        break;
+      }
+      case 2:
+      case 'stopped': {
+        this.subscriptions.push(
+          this.aria2.syncStopped()
+            .subscribe(tasks => this.stoppedTasks = tasks)
+        );
+        break;
+      }
+      case 3:
+      case 'waiting': {
+        this.subscriptions.push(
+          this.aria2.syncWaiting()
+            .subscribe(tasks => this.waitingTasks = tasks)
+        );
+        break;
+      }
+    }
+  }
+
   trackByGID(index: number, task: Task): string {
     return task.gid;
   }
