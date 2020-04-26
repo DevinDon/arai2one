@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Detail } from '@iinfinity/movie-crawler';
 
 @Component({
   selector: 'app-search',
@@ -7,9 +8,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SearchComponent implements OnInit {
 
+  keyword = '';
+  movies: Detail[] = [];
+
   constructor() { }
 
-  ngOnInit(): void {
+  ngOnInit() { }
+
+  search(value: any) {
+    if (value) {
+      this.keyword = value;
+      this.movies = undefined;
+    }
   }
 
 }

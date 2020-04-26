@@ -1,31 +1,29 @@
-<div>
-  <p>search works!</p>
-  <p>search works!</p>
-  <p>search works!</p>
-  <p>search works!</p>
-  <p>search works!</p>
-  <p>search works!</p>
-  <p>search works!</p>
-  <p>search works!</p>
-  <p>search works!</p>
-  <p>search works!</p>
-  <p>search works!</p>
-  <p>search works!</p>
-  <p>search works!</p>
-  <p>search works!</p>
-  <p>search works!</p>
-  <p>search works!</p>
-  <p>search works!</p>
-  <p>search works!</p>
-  <p>search works!</p>
-  <p>search works!</p>
-  <p>search works!</p>
-  <p>search works!</p>
-  <p>search works!</p>
-  <p>search works!</p>
-  <p>search works!</p>
-  <p>search works!</p>
-  <p>search works!</p>
-  <p>search works!</p>
+<div class="window">
+
+  <div class="content">
+    <mat-nav-list *ngIf="movies && movies.length">
+      <mat-list-item *ngFor="let movie of movies">{{ movie | json }}</mat-list-item>
+    </mat-nav-list>
+    <div *ngIf="movies && movies.length === 0" class="none">
+      <p class="desc">{{ keyword ? '什么也没找到' : '搜索在下面' }}</p>
+      <p class="tip">{{ keyword ? '换个姿势搜搜看' : '试试 "人在囧途"' }}</p>
+    </div>
+    <div *ngIf="movies === undefined" class="loading">
+      <p class="desc">全力搜索中</p>
+      <p class="tip">别着急，吃个鸡腿先</p>
+    </div>
+  </div>
+
+  <div class="search">
+    <mat-form-field appearance="outline">
+      <input #input="matInput" matInput autocomplete="off" placeholder="从 80s 上获取电影资源">
+      <mat-label>
+        <i class="ri-movie-2-line"></i> <span>搜索电影</span>
+      </mat-label>
+      <button mat-icon-button matSuffix (click)="search(input.value)" [disabled]="movies === undefined">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
 
 </div>
