@@ -1,7 +1,7 @@
-.window {
+:host {
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 5rem - 3rem);
+  height: calc(100vh - 5rem - 7rem);
 
   > .content {
     display: flex;
@@ -38,6 +38,10 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: white;
     > mat-form-field {
       width: 90%;
     }
