@@ -1,17 +1,22 @@
 import { Injectable } from '@angular/core';
 import { Aria2, Option } from '@iinfinity/aria2';
-import { timer } from 'rxjs';
+import { BehaviorSubject, timer } from 'rxjs';
 import { fromPromise } from 'rxjs/observable/fromPromise';
-import { map, share, switchMap } from 'rxjs/operators';
+import { distinctUntilChanged, map, share, switchMap, throttleTime } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class Aria2Service {
 
-  public client: Aria2;
+  private client: Aria2;
+  private subjections = {
+    connected: new BehaviorSubject<boolean | undefined>(undefined)
+  };
 
-  constructor() { }
+  constructor() {
+    this.client = new Aria2();
+  }
 
   connect(option: Option = {
     host: '192.168.0.241',
@@ -20,8 +25,20 @@ export class Aria2Service {
     secure: false,
     secret: 'SECRET'
   }) {
-    this.client = new Aria2(option);
-    return fromPromise(this.client.connect());
+    this.client.on('open', e => this.subjections.connected.next(true));
+    this.client.on('close', e => this.subjections.connected.next(undefined));
+    this.client.on('error', e => this.subjections.connected.next(false));
+    this.client.on('message', e => this.subjections.connected.next(true));
+    this.client.connect(option);
+    return this.observableClient();
+  }
+
+  observableClient() {
+    return this.subjections.connected
+      .pipe(
+        throttleTime(50),
+        distinctUntilChanged()
+      );;
   }
 
   syncActive() {
