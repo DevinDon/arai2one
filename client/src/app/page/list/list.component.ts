@@ -18,59 +18,32 @@ export class ListComponent implements OnInit, OnDestroy {
   stoppedTasks: Task[];
   waitingTasks: Task[];
 
-  status?: boolean;
+  state?: boolean;
 
   constructor(
     private aria2: Aria2Service
   ) { }
 
   ngOnInit() {
-    this.subscriptions.push(
-      this.aria2.syncActive()
-        .subscribe(tasks => this.activeTasks = tasks)
-    );
-    this.subscriptions.push(
-      this.aria2.syncStopped()
-        .subscribe(tasks => this.stoppedTasks = tasks)
-    );
-    this.subscriptions.push(
-      this.aria2.syncWaiting()
-        .subscribe(tasks => this.waitingTasks = tasks)
-    );
+    this.aria2.observableClient()
+      .subscribe(state => {
+        console.log(state);
+        destory(this.subscriptions)
+        if (state) {
+          this.subscriptions.push(
+            this.aria2.syncActive()
+              .subscribe(tasks => this.activeTasks = tasks),
+            this.aria2.syncStopped()
+              .subscribe(tasks => this.stoppedTasks = tasks),
+            this.aria2.syncWaiting()
+              .subscribe(tasks => this.waitingTasks = tasks)
+          );
+        }
+      });
   }
 
   trackByGID(index: number, task: Task): string {
     return task.gid;
-  }
-
-  sync(type: 1 | 2 | 3 | 'active' | 'stopped' | 'waiting') {
-    destory(this.subscriptions);
-    switch (type) {
-      case 1:
-      case 'active': {
-        this.subscriptions.push(
-          this.aria2.syncActive()
-            .subscribe(tasks => this.tasks = tasks)
-        );
-        break;
-      }
-      case 2:
-      case 'stopped': {
-        this.subscriptions.push(
-          this.aria2.syncStopped()
-            .subscribe(tasks => this.tasks = tasks)
-        );
-        break;
-      }
-      case 3:
-      case 'waiting': {
-        this.subscriptions.push(
-          this.aria2.syncWaiting()
-            .subscribe(tasks => this.tasks = tasks)
-        );
-        break;
-      }
-    }
   }
 
   ngOnDestroy(): void {
