@@ -2,6 +2,7 @@
 
 import { Component, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { AddTaskDialogComponent } from './component/add-task-dialog/add-task-dialog.component';
 import { Navigation } from './module/routing/routes';
 import { AppService } from './service/app.service';
 import { Aria2Service } from './service/aria2.service';
@@ -59,6 +60,10 @@ export class AppComponent implements OnDestroy {
             });
         }
       });
+  }
+
+  addTaskDialog() {
+    this.app.openDialog(AddTaskDialogComponent);
   }
 
   ngOnDestroy(): void {
