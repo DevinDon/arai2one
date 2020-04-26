@@ -14,7 +14,8 @@
   },
   "dependencies": {
     "@iinfinity/movie-crawler": "^0.1.2",
-    "@rester/core": "0.10.10"
+    "@rester/core": "0.10.10",
+    "typeorm": "^0.2.24"
   },
   "devDependencies": {
     "@types/jasmine": "3.5.10",
