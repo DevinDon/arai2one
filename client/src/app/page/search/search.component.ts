@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Detail } from '@iinfinity/movie-crawler';
+import { SearchResult } from '@iinfinity/movie-crawler';
+import { CrawlerService } from 'src/app/service/crawler.service';
 
 @Component({
   selector: 'app-search',
@@ -9,9 +10,11 @@ import { Detail } from '@iinfinity/movie-crawler';
 export class SearchComponent implements OnInit {
 
   keyword = '';
-  movies: Detail[] = [];
+  movies: SearchResult[] = [];
 
-  constructor() { }
+  constructor(
+    private crawler: CrawlerService
+  ) { }
 
   ngOnInit() { }
 
@@ -19,6 +22,8 @@ export class SearchComponent implements OnInit {
     if (value) {
       this.keyword = value;
       this.movies = undefined;
+      this.crawler.search(value)
+        .subscribe(movies => this.movies = movies);
     }
   }
 
