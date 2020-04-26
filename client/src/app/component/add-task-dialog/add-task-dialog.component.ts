@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-add-task-dialog',
@@ -7,9 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AddTaskDialogComponent implements OnInit {
 
-  constructor() { }
+  form: FormGroup;
 
-  ngOnInit(): void {
+  constructor() {
+    this.form = new FormGroup({
+      name: new FormControl(''),
+      uri: new FormControl('', [Validators.required, Validators.maxLength(5000)])
+    });
   }
+
+  ngOnInit() { }
 
 }

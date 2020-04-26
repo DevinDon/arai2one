@@ -1,1 +1,38 @@
-<p>add-task-dialog works!</p>
+<h2 mat-dialog-title>添加新任务</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="form">
+    <mat-form-field appearance="outline">
+      <input matInput formControlName="name" autocomplete="off">
+      <mat-label>
+        <i class="ri-file-line"></i> <span class="text">文件名</span>
+      </mat-label>
+      <!-- <mat-error *ngIf="formGroupID.get('id').hasError('minlength') || formGroupID.get('id').hasError('maxlength')">
+          <mat-icon>block</mat-icon> <span class="text">学号格式有误</span>
+        </mat-error>
+        <mat-error *ngIf="formGroupID.get('id').hasError('required')">
+          <mat-icon>block</mat-icon> <span class="text">学号不能为空</span>
+        </mat-error>
+        <mat-error *ngIf="formGroupID.get('id').hasError('error')">
+          <mat-icon>block</mat-icon> <span class="text">{{ formGroupID.get('id').getError('error') }}</span>
+        </mat-error> -->
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <textarea matInput formControlName="uri" rows="7"></textarea>
+      <mat-label>
+        <i class="ri-links-line"></i> <span class="text">下载地址</span>
+      </mat-label>
+      <mat-error *ngIf="form.get('uri').hasError('required')">
+        <mat-icon>block</mat-icon> <span class="text">下载地址不能为空</span>
+      </mat-error>
+      <mat-hint>
+        <mat-icon>check</mat-icon> <span>最多输入 5000 个字符</span>
+      </mat-hint>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button color="primary" [disabled]="form.invalid">添加</button>
+  <button mat-button mat-dialog-close color="warn">取消</button>
+</mat-dialog-actions>
