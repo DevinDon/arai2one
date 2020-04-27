@@ -1,14 +1,7 @@
 import { SearchResult } from '@iinfinity/movie-crawler';
 import { BaseEntity, Column, Entity, ObjectID, ObjectIdColumn } from 'typeorm';
 
-export interface Search extends SearchResult {
-
-  keyword: string;
-
-}
-
-@Entity('search')
-export class SearchEntity extends BaseEntity implements Search {
+export class SearchResultDoc implements SearchResult {
 
   @Column()
   keyword!: string;
@@ -33,5 +26,23 @@ export class SearchEntity extends BaseEntity implements Search {
 
   @Column()
   url!: string;
+
+}
+
+export interface Search {
+
+  keyword: string;
+  results: SearchResult[];
+
+}
+
+@Entity('search')
+export class SearchEntity extends BaseEntity implements Search {
+
+  @Column()
+  keyword!: string;
+
+  @Column(type => SearchResultDoc)
+  results!: SearchResult[];
 
 }
