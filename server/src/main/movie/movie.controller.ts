@@ -10,7 +10,10 @@ export class MovieController {
 
   async search(keyword: string): Promise<SearchResult[]> {
     const searchInDB = await SearchEntity.findOne({ keyword });
-    if (searchInDB) { return searchInDB.results; }
+    if (searchInDB) {
+      // console.log('From cache in search: ' + decodeURIComponent(keyword));
+      return searchInDB.results;
+    }
     const results = await this.crawler.search(keyword);
     SearchEntity.insert({ keyword, results });
     return results;
@@ -18,7 +21,10 @@ export class MovieController {
 
   async getDetail(source: string): Promise<Detail> {
     const detailInDB = await MovieEntity.findOne({ source });
-    if (detailInDB) { return detailInDB; }
+    if (detailInDB) {
+      // console.log('From cache in detail: ' + source);
+      return detailInDB;
+    }
     const detail = await this.crawler.getDetail(source);
     MovieEntity.insert(detail);
     return detail;

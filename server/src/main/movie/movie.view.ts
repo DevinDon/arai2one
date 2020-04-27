@@ -1,51 +1,36 @@
-import { Crawler, Detail, SearchResult } from "@iinfinity/movie-crawler";
-import { GET, Inject, PathVariable, POST, View, RequestBody } from "@rester/core";
+import { Detail, SearchResult } from '@iinfinity/movie-crawler';
+import { GET, Inject, PathVariable, POST, RequestBody, View } from '@rester/core';
+import { MovieController } from './movie.controller';
 
 @View('movie')
 export class MovieView {
 
-  @Inject() crawler!: Crawler;
+  @Inject() controller!: MovieController;
 
   @GET('{{keyword}}')
   async search(
     @PathVariable('keyword') keyword: string
   ) {
-    console.log(keyword);
-    const result = await this.crawler.search(keyword)
-      .then(v => {
-        console.log(v);
-        return v;
-      })
-      .catch(e => {
-        console.error(e);
-        throw e;
-      });
-    console.log(result);
-    return result;
+    return this.controller.search(keyword);
   }
 
-  @GET('detail/{{keyword}}')
-  async searchDetail(
+  @GET('details/{{keyword}}')
+  async searchDetails(
     @PathVariable('keyword') keyword: string
   ) {
-    console.log(keyword);
-    const searchResults = await this.crawler.search(keyword);
+    const results = await this.controller.search(keyword);
     const details: Detail[] = [];
-    for (const result of searchResults) {
-      console.log('正在加载:' + result.title);
-      details.push(await this.crawler.getDetail(result.url));
+    for (const result of results) {
+      details.push(await this.controller.getDetail(result.url));
     }
-    console.log(details);
     return details;
   }
 
   @POST('detail')
   async getDetail(
-    @RequestBody() data: SearchResult
+    @RequestBody() data: { source: string; }
   ) {
-    const result = await this.crawler.getDetail(data.url);
-    console.log(result);
-    return result;
+    return this.controller.getDetail(data.source);
   }
 
 }
