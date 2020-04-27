@@ -1,5 +1,5 @@
 import { Detail, Douban, Download } from '@iinfinity/movie-crawler';
-import { BaseEntity, Column, Entity, ObjectID, ObjectIdColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, ObjectID, ObjectIdColumn, PrimaryColumn } from 'typeorm';
 
 export interface Movie extends Detail { }
 
@@ -35,7 +35,7 @@ export class DownloadDoc implements Download {
 @Entity('movie')
 export class MovieEntity extends BaseEntity implements Movie {
 
-  @Column()
+  @PrimaryColumn()
   source!: string;
 
   @Column()

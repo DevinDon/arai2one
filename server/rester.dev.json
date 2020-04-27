@@ -5,7 +5,7 @@
     "porxy": false
   },
   "database": {
-    "type": "mongo",
+    "type": "mongodb",
     "database": "aria2one",
     "host": "localhost",
     "port": "27017",

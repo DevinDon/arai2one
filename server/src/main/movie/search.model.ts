@@ -1,5 +1,5 @@
 import { SearchResult } from '@iinfinity/movie-crawler';
-import { BaseEntity, Column, Entity, ObjectID, ObjectIdColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, ObjectID, ObjectIdColumn, PrimaryColumn } from 'typeorm';
 
 export class SearchResultDoc implements SearchResult {
 
@@ -39,7 +39,7 @@ export interface Search {
 @Entity('search')
 export class SearchEntity extends BaseEntity implements Search {
 
-  @Column()
+  @PrimaryColumn()
   keyword!: string;
 
   @Column(type => SearchResultDoc)
