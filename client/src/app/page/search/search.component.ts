@@ -2,8 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { of } from 'rxjs';
 import { catchError, switchMap, tap, timeout } from 'rxjs/operators';
 import { AppService } from 'src/app/service/app.service';
+import { Aria2Service } from 'src/app/service/aria2.service';
 import { CrawlerService } from 'src/app/service/crawler.service';
 import { Device } from 'src/app/util/device';
+
+interface Download {
+  title: string;
+  url: string;
+  size: string;
+}
 
 interface Movie {
   title: string;
@@ -11,11 +18,7 @@ interface Movie {
   image?: string;
   desc?: string;
   type?: string;
-  download?: {
-    title: string;
-    url: string;
-    size: string;
-  };
+  download?: Download[];
 }
 
 @Component({
@@ -31,6 +34,7 @@ export class SearchComponent implements OnInit {
 
   constructor(
     private app: AppService,
+    private aria2: Aria2Service,
     private crawler: CrawlerService
   ) { }
 
@@ -57,17 +61,18 @@ export class SearchComponent implements OnInit {
       .subscribe(movies => this.movies = movies);
   }
 
-  private searchDetail(keyword: string) {
-    if (!keyword) { return; }
-    this.crawler.searchDetail(keyword)
+  download(download: Download[]) {
+    console.log(download);
+    return;
+    if (!download) { return; }
+    this.aria2.addTask(download[0].url)
       .pipe(
-        timeout(30000),
         catchError(e => {
-          this.app.openBar('请求超时，请重试。');
-          return of([]);
+          this.app.openBar('任务添加失败，请重试');
+          throw e;
         })
       )
-      .subscribe(movies => this.movies = movies);
+      .subscribe(gid => this.app.openBar('任务添加成功：' + gid));
   }
 
   trackByMovieTitle(index: number, movie: Movie): string {

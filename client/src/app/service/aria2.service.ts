@@ -68,4 +68,12 @@ export class Aria2Service {
       );
   }
 
+  addTask(uri: string) {
+    return fromPromise(this.client.addUri([uri]));
+  }
+
+  addTasks(uris: string[]) {
+    return fromPromise(this.client.addUri(uris));
+  }
+
 }
