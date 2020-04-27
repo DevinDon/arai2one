@@ -21,7 +21,8 @@ export class MovieView {
     const results = await this.controller.search(keyword);
     const details: Detail[] = [];
     for (const result of results) {
-      details.push(await this.controller.getDetail(result.url));
+      const detail = await this.controller.getDetail(result.url);
+      if (detail) { details.push(detail); }
     }
     return details;
   }
