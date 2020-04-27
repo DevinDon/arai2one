@@ -24,7 +24,22 @@ export class MovieView {
     return result;
   }
 
-  @POST()
+  @GET('detail/{{keyword}}')
+  async searchDetail(
+    @PathVariable('keyword') keyword: string
+  ) {
+    console.log(keyword);
+    const searchResults = await this.crawler.search(keyword);
+    const details: Detail[] = [];
+    for (const result of searchResults) {
+      console.log('正在加载:' + result.title);
+      details.push(await this.crawler.getDetail(result.url));
+    }
+    console.log(details);
+    return details;
+  }
+
+  @POST('detail')
   async getDetail(
     @RequestBody() data: SearchResult
   ) {
