@@ -13,7 +13,7 @@
     "watch": "webpack-dev-server --open --config webpack.dev.js"
   },
   "dependencies": {
-    "@iinfinity/movie-crawler": "^0.1.2",
+    "@iinfinity/movie-crawler": "0.2.0",
     "@rester/core": "0.10.10",
     "typeorm": "^0.2.24"
   },
