@@ -14,4 +14,8 @@ export class CrawlerService {
     return this.api.get('movie/' + keyword);
   }
 
+  searchDetail(keyword: string) {
+    return this.api.get('movie/detail/' + keyword);
+  }
+
 }
