@@ -53,7 +53,6 @@ export class SearchComponent implements OnInit {
   }
 
   download(download: Download[]) {
-    console.log(download);
     this.app.openDialog(DownloadDialogComponent, { data: download });
   }
 

@@ -45,7 +45,7 @@ export class Aria2Service {
     return timer(0, 1500)
       .pipe(
         switchMap(_ => fromPromise(this.client.tellActive())),
-        map(tasks => tasks.filter(task => task.files[0]?.path)),
+        // map(tasks => tasks.filter(task => task.files[0]?.path)),
         share()
       );
   }
@@ -54,7 +54,7 @@ export class Aria2Service {
     return timer(0, 1500)
       .pipe(
         switchMap(_ => fromPromise(this.client.tellWaiting(offset, total))),
-        map(tasks => tasks.filter(task => task.files[0]?.path)),
+        // map(tasks => tasks.filter(task => task.files[0]?.path)),
         share()
       );
   }
@@ -63,7 +63,7 @@ export class Aria2Service {
     return timer(0, 1500)
       .pipe(
         switchMap(_ => fromPromise(this.client.tellStopped(offset, total))),
-        map(tasks => tasks.filter(task => task.files[0]?.path)),
+        // map(tasks => tasks.filter(task => task.files[0]?.path)),
         share()
       );
   }

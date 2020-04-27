@@ -83,6 +83,15 @@ export class ListComponent implements OnInit, OnDestroy {
     return task.gid;
   }
 
+  getTaskName(task: Task) {
+    if (task.files[0].path) {
+      return task.files[0].path.slice(task.dir.length + 1);
+    }
+    const uri = task.files[0].uris[0].uri;
+    const split = uri.split('/');
+    return decodeURIComponent(split[split.length - 1]);
+  }
+
   ngOnDestroy(): void {
     destory(this.subscriptions);
   }

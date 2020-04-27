@@ -56,7 +56,7 @@
     <mat-nav-list class="content" *ngIf="stoppedTasks && stoppedTasks.length; else noTaskTemplate">
       <mat-list-item *ngFor="let task of stoppedTasks; trackBy:trackByGID">
         <img mat-list-avatar src="/assets/icon-test.png" />
-        <p mat-line>{{ task.files[0].path.slice(task.dir.length + 1) }}</p>
+        <p mat-line>{{ getTaskName(task) }}</p>
         <mat-progress-bar mat-line mode="determinate" [color]="task.status === 'error' && 'warn'"
           [value]="task.completedLength / task.totalLength * 100">
         </mat-progress-bar>
