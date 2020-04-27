@@ -3,7 +3,7 @@
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { catchError, finalize } from 'rxjs/operators';
+import { finalize } from 'rxjs/operators';
 import { AppService } from '../service/app.service';
 
 @Injectable()
@@ -15,12 +15,6 @@ export class LoadingInterceptor implements HttpInterceptor {
     this.app.loadingBusy();
     return next.handle(req)
       .pipe(
-        catchError(
-          error => {
-            this.app.openBar('Network busy, try again later.');
-            throw error;
-          }
-        ),
         finalize(() => this.app.loadingFree())
       );
   }
