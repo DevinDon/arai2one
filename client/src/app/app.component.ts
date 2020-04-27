@@ -46,7 +46,7 @@ export class AppComponent implements OnDestroy {
   }
 
   addTaskDialog() {
-    this.app.openDialog(AddTaskDialogComponent);
+    this.app.openDialog(AddTaskDialogComponent, { autoFocus: false });
   }
 
   ngOnDestroy(): void {
