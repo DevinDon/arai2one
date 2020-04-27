@@ -1,20 +1,92 @@
-import { SearchResult, Detail, Download } from '@iinfinity/movie-crawler';
-import { Entity, BaseEntity } from 'typeorm';
+import { SearchResult, Detail, Download, Douban } from '@iinfinity/movie-crawler';
+import { Entity, BaseEntity, Column, ObjectIdColumn, ObjectID } from 'typeorm';
 
 export interface Movie extends Detail { }
 
-// @Entity('movie')
-// export class MovieEntity implements Movie {
+export class DoubanDoc implements Douban {
 
-//   @Column
-//   title!: string;
-//   image!: string;
-//   artist!: string;
-//   desc!: string;
-//   type!: string;
-//   area!: string;
-//   date!: string;
-//   rate!: string;
-//   download!: Download[];
+  @Column()
+  id!: number;
 
-// }
+  @Column()
+  commentLink!: string;
+
+  @Column()
+  movieLink!: string;
+
+}
+
+export class DownloadDoc implements Download {
+
+  @Column()
+  title!: string;
+
+  @Column()
+  uri!: string;
+
+  @Column()
+  size!: string;
+
+  @Column()
+  type!: string;
+
+}
+
+@Entity('movie')
+export class MovieEntity implements Movie {
+
+  @ObjectIdColumn()
+  id!: ObjectID;
+
+  @Column()
+  source!: string;
+
+  @Column()
+  title!: string;
+
+  @Column()
+  year!: number;
+
+  @Column()
+  introduction!: string;
+
+  @Column()
+  aliases!: string[];
+
+  @Column()
+  artists!: string[];
+
+  @Column()
+  types!: string[];
+
+  @Column()
+  areas!: string[];
+
+  @Column()
+  languages!: string[];
+
+  @Column()
+  directors!: string[];
+
+  @Column()
+  releaseDate!: number;
+
+  @Column()
+  updateDate!: number;
+
+  @Column()
+  duration!: number;
+
+  @Column()
+  rating!: number;
+
+  @Column(type => DoubanDoc)
+  douban!: Douban;
+
+  @Column()
+  description!: string;
+
+  @Column(type => DownloadDoc)
+  downloads!: Download[];
+
+}
