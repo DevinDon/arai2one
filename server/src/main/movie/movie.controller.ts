@@ -25,7 +25,10 @@ export class MovieController {
       // console.log('From cache in detail: ' + source);
       return detailInDB;
     }
-    const detail = await this.crawler.getDetail(source);
+    const detail = await this.crawler.getDetail(source).catch(e => {
+      console.error(e);
+      throw e;
+    });
     MovieEntity.insert(detail);
     return detail;
   }
