@@ -39,7 +39,7 @@
       "warn"
     ],
     "no-unused-vars": [
-      "warn"
+      "off"
     ],
     "quotes": [
       "warn",
