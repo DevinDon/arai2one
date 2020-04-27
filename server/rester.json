@@ -6,7 +6,7 @@
   },
   "database": {
     "type": "mongo",
-    "database": "movie",
+    "database": "aria2one",
     "host": "localhost",
     "port": "27017",
     "logging": false,
