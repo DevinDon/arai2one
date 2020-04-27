@@ -5,11 +5,10 @@
     "porxy": true
   },
   "database": {
-    "type": "sqlite",
-    "database": "/db/sqlite.db",
-    "entities": [
-      "**/*.entity.js"
-    ],
+    "type": "mongo",
+    "database": "movie",
+    "host": "localhost",
+    "port": "27017",
     "logging": false,
     "synchronize": true
   }
