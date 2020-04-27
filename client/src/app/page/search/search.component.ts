@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { of } from 'rxjs';
 import { catchError, switchMap, tap, timeout } from 'rxjs/operators';
 import { AppService } from 'src/app/service/app.service';
 import { Aria2Service } from 'src/app/service/aria2.service';
-import { CrawlerService, Download, SearchResult, Detail } from 'src/app/service/crawler.service';
+import { CrawlerService, Detail, Download, SearchResult } from 'src/app/service/crawler.service';
 import { Device } from 'src/app/util/device';
 
 @Component({
@@ -12,6 +12,8 @@ import { Device } from 'src/app/util/device';
   styleUrls: ['./search.component.scss']
 })
 export class SearchComponent implements OnInit {
+
+  @ViewChild('input') input: ElementRef<HTMLElement>;
 
   device: Device;
   keyword = '';
@@ -44,6 +46,9 @@ export class SearchComponent implements OnInit {
         switchMap(e => this.crawler.searchDetails(keyword).pipe(timeout(30000)))
       )
       .subscribe(movies => this.movies = movies);
+    setTimeout(() => {
+      this.input.nativeElement.blur();
+    }, 100);
   }
 
   download(download: Download[]) {

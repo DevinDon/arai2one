@@ -40,7 +40,7 @@
 
 <div class="search">
   <mat-form-field appearance="outline">
-    <input #input="matInput" matInput autocomplete="off" placeholder="从 80s 上获取电影资源">
+    <input #input matInput (keyup.enter)="search(input.value)" autocomplete="off" placeholder="从 80s 上获取电影资源">
     <mat-label>
       <i class="ri-movie-2-line"></i> <span>搜索电影</span>
     </mat-label>
