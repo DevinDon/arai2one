@@ -3,23 +3,8 @@ import { of } from 'rxjs';
 import { catchError, switchMap, tap, timeout } from 'rxjs/operators';
 import { AppService } from 'src/app/service/app.service';
 import { Aria2Service } from 'src/app/service/aria2.service';
-import { CrawlerService } from 'src/app/service/crawler.service';
+import { CrawlerService, Download, SearchResult, Detail } from 'src/app/service/crawler.service';
 import { Device } from 'src/app/util/device';
-
-interface Download {
-  title: string;
-  url: string;
-  size: string;
-}
-
-interface Movie {
-  title: string;
-  url: string;
-  image?: string;
-  desc?: string;
-  type?: string;
-  download?: Download[];
-}
 
 @Component({
   selector: 'app-search',
@@ -30,7 +15,7 @@ export class SearchComponent implements OnInit {
 
   device: Device;
   keyword = '';
-  movies: Movie[] = [];
+  movies: SearchResult[] | Detail[] = [];
 
   constructor(
     private app: AppService,
@@ -56,7 +41,7 @@ export class SearchComponent implements OnInit {
           return of([]);
         }),
         tap(x => this.movies = x),
-        switchMap(e => this.crawler.searchDetail(keyword).pipe(timeout(30000)))
+        switchMap(e => this.crawler.searchDetails(keyword).pipe(timeout(30000)))
       )
       .subscribe(movies => this.movies = movies);
   }
@@ -65,7 +50,7 @@ export class SearchComponent implements OnInit {
     console.log(download);
     return;
     if (!download) { return; }
-    this.aria2.addTask(download[0].url)
+    this.aria2.addTask(download[0].uri)
       .pipe(
         catchError(e => {
           this.app.openBar('任务添加失败，请重试');
@@ -75,7 +60,7 @@ export class SearchComponent implements OnInit {
       .subscribe(gid => this.app.openBar('任务添加成功：' + gid));
   }
 
-  trackByMovieTitle(index: number, movie: Movie): string {
+  trackByMovieTitle(index: number, movie: SearchResult): string {
     return movie.title;
   }
 

@@ -8,14 +8,14 @@
         <mat-card>
           <mat-card-header>
             <mat-card-title>{{ movie.title }}</mat-card-title>
-            <mat-card-subtitle>subtitle</mat-card-subtitle>
+            <mat-card-subtitle>{{ movie.year }}</mat-card-subtitle>
             <img mat-card-sm-image [src]="movie.image || '/assets/pic.jpeg'" [alt]="movie.title">
           </mat-card-header>
           <mat-card-content>
-            <p class="desc">{{ movie.desc || '简介加载中' }}</p>
+            <p class="desc">{{ movie.description || '简介加载中' }}</p>
           </mat-card-content>
-          <mat-card-actions>
-            <button mat-button (click)="download(movie.download)">下载</button>
+          <mat-card-actions align="end">
+            <button mat-button (click)="download(movie.downloads)">下载</button>
             <!-- <button mat-button *ngFor="let item of movie.download">
               {{ item | json }}
             </button> -->
