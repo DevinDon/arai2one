@@ -15,7 +15,7 @@
             <p class="desc">{{ movie.description || '简介加载中' }}</p>
           </mat-card-content>
           <mat-card-actions align="end">
-            <button mat-button (click)="download(movie.downloads)">下载</button>
+            <button mat-button (click)="download(movie.downloads)" [disabled]="!movie.downloads">下载</button>
             <!-- <button mat-button *ngFor="let item of movie.download">
               {{ item | json }}
             </button> -->

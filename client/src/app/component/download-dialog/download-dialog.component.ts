@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Aria2Service } from 'src/app/service/aria2.service';
+import { Download } from 'src/app/service/crawler.service';
+import { AppService } from 'src/app/service/app.service';
+import { catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'app-download-dialog',
@@ -7,9 +12,26 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DownloadDialogComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: Download[],
+    private app: AppService,
+    private aria2: Aria2Service
+  ) { }
 
-  ngOnInit(): void {
+  ngOnInit() { }
+
+  download(uri: string) {
+    this.aria2.addTask(uri)
+      .pipe(
+        catchError(e => {
+          this.app.openBar('任务添加失败，请重试。', '确认');
+          throw e;
+        })
+      )
+      .subscribe(gid => this.app.openBar('任务添加成功: ' + gid, '查看')
+        .onAction()
+        .subscribe(_ => this.app.router.navigateByUrl('/list'))
+      );
   }
 
 }

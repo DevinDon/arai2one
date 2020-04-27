@@ -5,6 +5,7 @@ import { AppService } from 'src/app/service/app.service';
 import { Aria2Service } from 'src/app/service/aria2.service';
 import { CrawlerService, Detail, Download, SearchResult } from 'src/app/service/crawler.service';
 import { Device } from 'src/app/util/device';
+import { DownloadDialogComponent } from 'src/app/component/download-dialog/download-dialog.component';
 
 @Component({
   selector: 'app-search',
@@ -53,16 +54,7 @@ export class SearchComponent implements OnInit {
 
   download(download: Download[]) {
     console.log(download);
-    return;
-    if (!download) { return; }
-    this.aria2.addTask(download[0].uri)
-      .pipe(
-        catchError(e => {
-          this.app.openBar('任务添加失败，请重试');
-          throw e;
-        })
-      )
-      .subscribe(gid => this.app.openBar('任务添加成功：' + gid));
+    this.app.openDialog(DownloadDialogComponent, { data: download });
   }
 
   trackByMovieTitle(index: number, movie: SearchResult): string {
