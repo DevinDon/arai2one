@@ -48,6 +48,10 @@
     "quote-props": [
       "warn",
       "as-needed"
+    ],
+    "semi": [
+      "warn",
+      "always"
     ]
   }
 }
