@@ -35,9 +35,6 @@ export class DownloadDoc implements Download {
 @Entity('movie')
 export class MovieEntity extends BaseEntity implements Movie {
 
-  @ObjectIdColumn()
-  id!: ObjectID;
-
   @Column()
   source!: string;
 
