@@ -42,6 +42,9 @@ export class MovieEntity extends BaseEntity implements Movie {
   source!: string;
 
   @Column()
+  image!: string;
+
+  @Column()
   title!: string;
 
   @Column()

@@ -1,5 +1,5 @@
 import { Crawler, Detail, SearchResult } from '@iinfinity/movie-crawler';
-import { Controller, Inject } from '@rester/core';
+import { Controller, Inject, HTTP500Exception } from '@rester/core';
 import { MovieEntity } from './movie.model';
 import { SearchEntity } from './search.model';
 
@@ -25,10 +25,7 @@ export class MovieController {
       // console.log('From cache in detail: ' + source);
       return detailInDB;
     }
-    const detail = await this.crawler.getDetail(source).catch(e => {
-      console.error(e);
-      throw e;
-    });
+    const detail = await this.crawler.getDetail(source);
     MovieEntity.insert(detail);
     return detail;
   }
