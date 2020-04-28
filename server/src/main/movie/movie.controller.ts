@@ -19,7 +19,11 @@ export class MovieController {
     try {
       const detailFromPianku = await this.pianku.movie(id);
       const detailFromDouban = await this.douban.movie(id);
-      const detail = Object.assign(detailFromDouban, detailFromPianku);
+      const detail = Object.assign<Movie, Pick<Movie, 'downloads' | 'links'>>(
+        detailFromDouban, {
+        downloads: detailFromPianku.downloads,
+        links: detailFromPianku.links
+      });
       console.log('detail: ', detail);
       MovieEntity.insert(detail);
       return detail;
