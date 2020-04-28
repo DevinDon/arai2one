@@ -16,20 +16,22 @@ export class MovieController {
       return detailInDB;
     }
     // else try to use crawler to get it
-    try {
-      const detailFromPianku = await this.pianku.movie(id);
-      const detailFromDouban = await this.douban.movie(id);
+    const detailFromDouban = await this.douban.movie(id);
+    const detailFromPianku = await this.pianku.movieByID(id);
+    // 如果爬到了 片库 的下载资源，合并
+    if (detailFromPianku) {
       const detail = Object.assign<Movie, Pick<Movie, 'downloads' | 'links'>>(
         detailFromDouban, {
         downloads: detailFromPianku.downloads,
         links: detailFromPianku.links
       });
-      console.log('detail: ', detail);
+      console.log('detail with pianku: ', detail);
       MovieEntity.insert(detail);
       return detail;
-    } catch (error) {
-      console.warn('Error while get detail from ' + id);
     }
+    // 否则只返回豆瓣的
+    console.log('detail without pianku: ', detailFromDouban);
+    return detailFromDouban;
   }
 
 }
