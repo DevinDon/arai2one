@@ -10,7 +10,7 @@ export class SearchView {
   async search(
     @PathVariable('keyword') keyword: string
   ) {
-    return this.controller.search(keyword);
+    return this.controller.search(decodeURIComponent(keyword));
   }
 
 }
