@@ -13,6 +13,7 @@
     "watch": "webpack-dev-server --open --config webpack.dev.js"
   },
   "dependencies": {
+    "@iinfinity/delay": "0.1.1",
     "@iinfinity/movie-crawler": "0.7.9",
     "@rester/core": "0.10.10",
     "mongodb": "3.5.6",
