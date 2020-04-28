@@ -1,6 +1,7 @@
 import { DoubanCrawler, Movie, PiankuCrawler } from '@iinfinity/movie-crawler';
 import { Controller, Inject } from '@rester/core';
 import { MovieEntity } from './movie.model';
+import { logger } from '@iinfinity/logger';
 
 @Controller()
 export class MovieController {
@@ -12,10 +13,11 @@ export class MovieController {
     const detailInDB = await MovieEntity.findOne({ id });
     // 首先尝试从数据库获取
     if (detailInDB) {
-      // console.log('From cache in detail: ' + source);
+      logger.info(`${id}: Hit cache from movie`);
       return detailInDB;
     }
     // 如果数据库不存在，尝试爬取
+    logger.info(`${id}: Crawler working for movie`);
     const detailFromDouban = await this.douban.movie(id);
     const detailFromPianku = await this.pianku.movieByID(id);
     // 如果爬到了 片库 的下载资源，合并
@@ -25,13 +27,12 @@ export class MovieController {
         detailFromDouban,
         { downloads: detailFromPianku.downloads, links: detailFromPianku.links }
       );
-      // console.log('detail with pianku');
-      MovieEntity.insert(detail);
+      MovieEntity.insert(detail).then(v => logger.info(`${id}: Insert movie with downloads`));
       return detail;
     }
     // 否则只返回豆瓣的
     // console.log('detail without pianku');
-    if (detailFromDouban) { MovieEntity.insert(detailFromDouban); }
+    if (detailFromDouban) { MovieEntity.insert(detailFromDouban).then(v => logger.info(`${id}: Insert movie without downloads`)); }
     return detailFromDouban;
   }
 
