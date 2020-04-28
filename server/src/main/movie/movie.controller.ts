@@ -1,4 +1,4 @@
-import { DoubanCrawler, Movie, PiankuCrawler } from '@iinfinity/movie-crawler';
+import { DoubanCrawler, Movie, PiankuCrawler, Tag } from '@iinfinity/movie-crawler';
 import { Controller, Inject } from '@rester/core';
 import { MovieEntity } from './movie.model';
 import { logger } from '@iinfinity/logger';
@@ -34,6 +34,12 @@ export class MovieController {
     // console.log('detail without pianku');
     if (detailFromDouban) { MovieEntity.insert(detailFromDouban).then(v => logger.info(`${id}: Insert movie without downloads`)); }
     return detailFromDouban;
+  }
+
+  async getSuggest(tag: Tag = '热门') {
+    const results = await this.douban.suggest(tag, 10);
+    const works = results.map(v => this.getDetail(v.id));
+    return results;
   }
 
 }
