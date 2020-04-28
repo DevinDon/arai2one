@@ -1,11 +1,11 @@
 import { CORSHandler, Rester } from '@rester/core';
 import { MovieEntity } from './movie/movie.model';
 import { MovieView } from './movie/movie.view';
-import { SearchEntity } from './movie/search.model';
+import { SummaryEntity } from './movie/summary.model';
 
 const rester = new Rester()
   .configDatabase
-  .setEntities([MovieEntity, SearchEntity])
+  .setEntities([MovieEntity, SummaryEntity])
   .end()
   .configViews
   .add(MovieView)

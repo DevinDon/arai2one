@@ -1,20 +1,5 @@
-import { Detail, Douban, Download } from '@iinfinity/movie-crawler';
+import { Artist, BaseImage, Download, Movie, Rating, ReleaseDate } from '@iinfinity/movie-crawler';
 import { BaseEntity, Column, Entity, ObjectID, ObjectIdColumn } from 'typeorm';
-
-export interface Movie extends Detail { }
-
-export class DoubanDoc implements Douban {
-
-  @Column()
-  id!: number;
-
-  @Column()
-  commentLink!: string;
-
-  @Column()
-  movieLink!: string;
-
-}
 
 export class DownloadDoc implements Download {
 
@@ -22,7 +7,7 @@ export class DownloadDoc implements Download {
   title!: string;
 
   @Column()
-  uri!: string;
+  uris!: string[];
 
   @Column()
   size!: string;
@@ -32,17 +17,81 @@ export class DownloadDoc implements Download {
 
 }
 
+class BaseImageDoc implements BaseImage {
+
+  @Column()
+  id?: ObjectID;
+
+  @Column()
+  title!: string;
+
+  @Column()
+  size!: { width: number; height: number; };
+
+  @Column()
+  url!: string;
+
+  @Column()
+  type: any;
+
+}
+
+class ArtistDoc implements Pick<Artist, 'id' | 'name'> {
+
+  @Column()
+  id!: string;
+
+  @Column()
+  name!: string;
+
+}
+
+class RatingDoc implements Rating {
+
+  @Column()
+  star!: number;
+
+  @Column()
+  total!: number;
+
+  @Column()
+  star5!: number;
+
+  @Column()
+  star4!: number;
+
+  @Column()
+  star3!: number;
+
+  @Column()
+  star2!: number;
+
+  @Column()
+  star1!: number;
+
+}
+
+class ReleaseDateDoc implements ReleaseDate {
+
+  @Column()
+  area!: string;
+
+  @Column()
+  date!: number;
+
+}
+
 @Entity('movie')
 export class MovieEntity extends BaseEntity implements Movie {
 
   @ObjectIdColumn()
-  id!: ObjectID;
+  _id!: ObjectID;
 
   @Column()
-  source!: string;
+  id!: string;
 
-  @Column()
-  image!: string;
+  @Column(type => BaseImageDoc)
+  images!: BaseImageDoc[];
 
   @Column()
   title!: string;
@@ -50,14 +99,14 @@ export class MovieEntity extends BaseEntity implements Movie {
   @Column()
   year!: number;
 
-  @Column()
-  introduction!: string;
+  @Column(type => ArtistDoc)
+  directors!: ArtistDoc[];
 
-  @Column()
-  aliases!: string[];
+  @Column(type => ArtistDoc)
+  writers!: ArtistDoc[];
 
-  @Column()
-  artists!: string[];
+  @Column(type => ArtistDoc)
+  actors!: ArtistDoc[];
 
   @Column()
   types!: string[];
@@ -68,11 +117,8 @@ export class MovieEntity extends BaseEntity implements Movie {
   @Column()
   languages!: string[];
 
-  @Column()
-  directors!: string[];
-
-  @Column()
-  releaseDate!: number;
+  @Column(type => ReleaseDateDoc)
+  releaseDate!: ReleaseDateDoc[];
 
   @Column()
   updateDate!: number;
@@ -81,15 +127,21 @@ export class MovieEntity extends BaseEntity implements Movie {
   duration!: number;
 
   @Column()
-  rating!: number;
+  aliases!: string[]
 
-  @Column(type => DoubanDoc)
-  douban!: Douban;
+  @Column()
+  imdb!: string;
+
+  @Column(type => RatingDoc)
+  rating!: RatingDoc;
 
   @Column()
   description!: string;
 
   @Column(type => DownloadDoc)
-  downloads!: Download[];
+  downloads!: DownloadDoc[];
+
+  @Column()
+  links!: string[];
 
 }

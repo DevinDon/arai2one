@@ -1,4 +1,4 @@
-import { Detail, SearchResult } from '@iinfinity/movie-crawler';
+import { Movie } from '@iinfinity/movie-crawler';
 import { GET, Inject, PathVariable, POST, RequestBody, View } from '@rester/core';
 import { MovieController } from './movie.controller';
 
@@ -19,9 +19,9 @@ export class MovieView {
     @PathVariable('keyword') keyword: string
   ) {
     const results = await this.controller.search(keyword);
-    const details: Detail[] = [];
+    const details: Movie[] = [];
     for (const result of results) {
-      const detail = await this.controller.getDetail(result.url);
+      const detail = await this.controller.getDetail(result.id);
       if (detail) { details.push(detail); }
     }
     return details;
@@ -29,9 +29,9 @@ export class MovieView {
 
   @POST('detail')
   async getDetail(
-    @RequestBody() data: { source: string; }
+    @RequestBody() data: Pick<Movie, 'id'>
   ) {
-    return this.controller.getDetail(data.source);
+    return this.controller.getDetail(data.id);
   }
 
 }
