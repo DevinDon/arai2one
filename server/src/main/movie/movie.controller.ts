@@ -53,8 +53,8 @@ export class MovieController {
     return detailFromDouban;
   }
 
-  async getSuggest(tag: Tag = '热门') {
-    const results = await this.douban.suggest(tag, 10);
+  async getSuggest(tag: Tag = '热门', start: number = 0, limit: number = 10) {
+    const results = await this.douban.suggest(tag, start, limit);
     const works = results.map(v => this.getDetail(v.id));
     return results;
   }
