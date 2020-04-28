@@ -27,12 +27,29 @@ export class MovieController {
         detailFromDouban,
         { downloads: detailFromPianku.downloads, links: detailFromPianku.links }
       );
-      MovieEntity.insert(detail).then(v => logger.info(`${id}: Insert movie with downloads`));
+      MovieEntity.update({ id }, detail)
+        .then(v => {
+          if (v.affected) {
+            logger.info(`${id}: Update movie with downloads`);
+          } else {
+            MovieEntity.insert(detail)
+              .then(v => logger.info(`${id}: Insert movie with downloads`));
+          }
+        });
       return detail;
     }
     // 否则只返回豆瓣的
-    // console.log('detail without pianku');
-    if (detailFromDouban) { MovieEntity.insert(detailFromDouban).then(v => logger.info(`${id}: Insert movie without downloads`)); }
+    if (detailFromDouban) {
+      MovieEntity.update({ id }, detailFromDouban)
+        .then(v => {
+          if (v.affected) {
+            logger.info(`${id}: Update movie without downloads`);
+          } else {
+            MovieEntity.insert(detailFromDouban)
+              .then(v => logger.info(`${id}: Insert movie without downloads`));
+          }
+        });
+    }
     return detailFromDouban;
   }
 
