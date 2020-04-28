@@ -1,8 +1,11 @@
 import { Summary } from '@iinfinity/movie-crawler';
-import { BaseEntity, Column, Entity } from 'typeorm';
+import { BaseEntity, Column, Entity, ObjectID, ObjectIdColumn } from 'typeorm';
 
 @Entity('summary')
 export class SummaryEntity extends BaseEntity implements Summary {
+
+  @ObjectIdColumn()
+  object!: ObjectID;
 
   @Column()
   id!: string;

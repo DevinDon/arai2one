@@ -1,26 +1,10 @@
 import { Artist, BaseImage, Download, Movie, Rating, ReleaseDate } from '@iinfinity/movie-crawler';
 import { BaseEntity, Column, Entity, ObjectID, ObjectIdColumn } from 'typeorm';
 
-export class DownloadDoc implements Download {
-
-  @Column()
-  title!: string;
-
-  @Column()
-  uris!: string[];
-
-  @Column()
-  size!: string;
-
-  @Column()
-  type!: string;
-
-}
-
 class BaseImageDoc implements BaseImage {
 
   @Column()
-  id?: ObjectID;
+  object?: any;
 
   @Column()
   title!: string;
@@ -81,11 +65,27 @@ class ReleaseDateDoc implements ReleaseDate {
 
 }
 
+export class DownloadDoc implements Download {
+
+  @Column()
+  title!: string;
+
+  @Column()
+  uris!: string[];
+
+  @Column()
+  size!: string;
+
+  @Column()
+  type!: string;
+
+}
+
 @Entity('movie')
 export class MovieEntity extends BaseEntity implements Movie {
 
   @ObjectIdColumn()
-  _id!: ObjectID;
+  object!: ObjectID;
 
   @Column()
   id!: string;
