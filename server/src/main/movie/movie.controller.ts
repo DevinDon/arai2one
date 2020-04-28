@@ -1,37 +1,26 @@
-import { Movie, Result } from '@iinfinity/movie-crawler';
-import { Controller, HTTP500Exception, Inject } from '@rester/core';
+import { DoubanCrawler, Movie, PiankuCrawler } from '@iinfinity/movie-crawler';
+import { Controller, Inject } from '@rester/core';
 import { MovieEntity } from './movie.model';
-import { SearchEntity } from '../summary/summary.model';
 
 @Controller()
 export class MovieController {
 
-  @Inject() douban: Douban
-  @Inject() pianku!: Crawler;
-
-  async search(keyword: string): Promise<Result[]> {
-    const searchInDB = await SearchEntity.findOne({ keyword });
-    if (searchInDB) {
-      // console.log('From cache in search: ' + decodeURIComponent(keyword));
-      return searchInDB.results;
-    }
-    const results = await this.pianku.search(keyword)
-      .catch(e => {
-        console.warn('Exception on search ' + decodeURIComponent(keyword));
-        throw new HTTP500Exception(e);
-      });
-    SearchEntity.insert({ keyword, results });
-    return results;
-  }
+  @Inject() douban!: DoubanCrawler
+  @Inject() pianku!: PiankuCrawler;
 
   async getDetail(id: string): Promise<Movie | undefined> {
-    const detailInDB = await MovieEntity.findOne({ source: id });
+    const detailInDB = await MovieEntity.findOne({ id });
+    // if detail in db, return it
     if (detailInDB) {
       // console.log('From cache in detail: ' + source);
       return detailInDB;
     }
+    // else try to use crawler to get it
     try {
-      const detail = await this.pianku.getDetail(id);
+      const detailFromPianku = await this.pianku.movie(id);
+      const detailFromDouban = await this.douban.movie(id);
+      const detail = Object.assign(detailFromDouban, detailFromPianku);
+      console.log('detail: ', detail);
       MovieEntity.insert(detail);
       return detail;
     } catch (error) {

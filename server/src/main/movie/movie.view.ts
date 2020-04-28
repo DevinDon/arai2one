@@ -7,31 +7,20 @@ export class MovieView {
 
   @Inject() controller!: MovieController;
 
-  @GET('{{keyword}}')
-  async search(
-    @PathVariable('keyword') keyword: string
-  ) {
-    return this.controller.search(keyword);
-  }
-
-  @GET('details/{{keyword}}')
-  async searchDetails(
-    @PathVariable('keyword') keyword: string
-  ) {
-    const results = await this.controller.search(keyword);
-    const details: Movie[] = [];
-    for (const result of results) {
-      const detail = await this.controller.getDetail(result.id);
-      if (detail) { details.push(detail); }
-    }
-    return details;
-  }
-
-  @POST('detail')
+  @GET('{{id}}')
   async getDetail(
-    @RequestBody() data: Pick<Movie, 'id'>
+    @PathVariable('id') id: string
   ) {
-    return this.controller.getDetail(data.id);
+    return this.controller.getDetail(id);
+  }
+
+  @POST()
+  async searchDetails(
+    @RequestBody() ids: string[]
+  ) {
+    const details = await Promise.all(ids.map(id => this.controller.getDetail(id)));
+    console.log('details: ', details);
+    return details.filter(v => v);
   }
 
 }
