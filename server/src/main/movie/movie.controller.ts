@@ -1,7 +1,7 @@
 import { Movie, Result } from '@iinfinity/movie-crawler';
 import { Controller, HTTP500Exception, Inject } from '@rester/core';
 import { MovieEntity } from './movie.model';
-import { SearchEntity } from './summary.model';
+import { SearchEntity } from '../summary/summary.model';
 
 @Controller()
 export class MovieController {

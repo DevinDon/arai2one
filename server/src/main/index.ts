@@ -1,7 +1,7 @@
 import { CORSHandler, Rester } from '@rester/core';
 import { MovieEntity } from './movie/movie.model';
 import { MovieView } from './movie/movie.view';
-import { SummaryEntity } from './movie/summary.model';
+import { SummaryEntity } from './summary/summary.model';
 
 const rester = new Rester()
   .configDatabase
