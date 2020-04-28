@@ -13,11 +13,4 @@ export class SearchView {
     return this.controller.search(decodeURIComponent(keyword));
   }
 
-  @GET('only/{{keyword}}')
-  async searchOnly(
-    @PathVariable('keyword') keyword: string
-  ) {
-    return this.controller.searchOnly(decodeURIComponent(keyword));
-  }
-
 }

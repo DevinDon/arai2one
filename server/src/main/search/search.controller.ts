@@ -72,14 +72,4 @@ export class SearchController {
     return summaryFromDouban;
   }
 
-  async searchOnly(keyword: string) {
-    const summaryFromDB = await SummaryEntity
-      .find({
-        where: {
-          title: { $regex: keyword }
-        }
-      });
-    return summaryFromDB;
-  }
-
 }
