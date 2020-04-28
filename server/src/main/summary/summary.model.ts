@@ -1,8 +1,8 @@
 import { Summary } from '@iinfinity/movie-crawler';
-import { Column, Entity } from 'typeorm';
+import { BaseEntity, Column, Entity } from 'typeorm';
 
 @Entity('summary')
-export class SummaryEntity implements Summary {
+export class SummaryEntity extends BaseEntity implements Summary {
 
   @Column()
   id!: string;
