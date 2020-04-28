@@ -30,11 +30,11 @@ export class AdminView {
           // const works = results.map(result => this.movie.getDetail(result.id)).filter(v => v);
           // const last = await Promise.all(works).catch(e => logger.error('爬取推荐视频时出错', e));
           for await (const result of results) {
-            await this.movie.getDetail(result.id);
+            await this.movie.getDetail(result.id)
+              .then(v => logger.info(`正在爬取 ${tag} 类别中的第 ${i} 项 ${v?.title}，总计第 ${++this.total} 项`));
             await delay(5000 + Math.random() * 5000);
           }
           await delay(10 * 1000);
-          this.total += step;
         }
       }
     })();
