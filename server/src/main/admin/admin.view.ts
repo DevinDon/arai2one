@@ -27,21 +27,29 @@ export class AdminView {
       for (const tag of tags) {
         for (let i = 0; i < 3 * 100; i += step) {
           logger.info(`类别：${tag}，从 ${i} 到 ${i + step}`);
-          const results = await this.douban.suggest(tag as any, i, step);
-          // const works = results.map(result => this.movie.getDetail(result.id)).filter(v => v);
-          // const last = await Promise.all(works).catch(e => logger.error('爬取推荐视频时出错', e));
+          const results = await this.douban.suggest(tag as any, i, step)
+            .catch(e => (logger.error(`列表抓取失败，${tag} 类别从第 ${i} 项到第 ${i + step} 项`), []));
+          // 没有更多推荐
+          if (results.length === 0) {
+            break;
+          }
+          // 循环爬取列表详情
           for await (const result of results) {
-            logger.info(`正在爬取 ${tag} 类别中的第 ${i + 1} 项 ${result.title}，总计第 ${++this.total} 项`);
+            logger.info(`正在爬取 ${tag} 类别，总计第 ${++this.total} 项`);
             if (await MovieEntity.findOne({ id: result.id })) {
               logger.info(`数据库中已有数据，跳过 ${result.title}`);
               continue;
             }
             await this.movie.getDetail(result.id)
-              .then(v => logger.info(`${v?.title} 爬取完成，已写入数据库`));
+              .then(v => logger.info(`${v?.title} 爬取完成，已写入数据库`))
+              .catch(e => logger.error(`${result.id} ${result.title} 爬取失败，原因：${e.message}`));
             await delay(10000 + Math.random() * 10000);
           }
+          // 每次列表间隔 30 秒
           await delay(30 * 1000);
         }
+        // 类别间隔 30 秒
+        await delay(30 * 1000);
       }
     })();
 
