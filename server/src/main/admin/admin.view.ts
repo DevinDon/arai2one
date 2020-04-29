@@ -3,6 +3,7 @@ import { logger } from '@iinfinity/logger';
 import { DoubanCrawler } from '@iinfinity/movie-crawler';
 import { GET, Inject, PUT, View } from '@rester/core';
 import { MovieController } from '../movie/movie.controller';
+import { MovieEntity } from '../movie/movie.model';
 
 @View('admin')
 export class AdminView {
@@ -16,7 +17,7 @@ export class AdminView {
   async update() {
 
     if (this.total !== 0) {
-      return { update: 'processing' };
+      return { update: `processing ${this.total}` };
     }
 
     (async () => {
@@ -30,11 +31,16 @@ export class AdminView {
           // const works = results.map(result => this.movie.getDetail(result.id)).filter(v => v);
           // const last = await Promise.all(works).catch(e => logger.error('爬取推荐视频时出错', e));
           for await (const result of results) {
+            logger.info(`正在爬取 ${tag} 类别中的第 ${i + 1} 项 ${result.title}，总计第 ${++this.total} 项`);
+            if (await MovieEntity.findOne({ id: result.id })) {
+              logger.info(`数据库中已有数据，跳过 ${result.title}`);
+              continue;
+            }
             await this.movie.getDetail(result.id)
-              .then(v => logger.info(`正在爬取 ${tag} 类别中的第 ${i} 项 ${v?.title}，总计第 ${++this.total} 项`));
-            await delay(5000 + Math.random() * 5000);
+              .then(v => logger.info(`${v?.title} 爬取完成，已写入数据库`));
+            await delay(10000 + Math.random() * 10000);
           }
-          await delay(10 * 1000);
+          await delay(30 * 1000);
         }
       }
     })();
