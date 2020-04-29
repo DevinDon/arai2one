@@ -1,36 +1,33 @@
 <div class="content">
 
-  <div *ngIf="movies && movies.length" class="list">
+  <div *ngIf="list && list.length" class="list">
     <h2>{{ keyword }} 的搜索结果</h2>
     <mat-grid-list [cols]="(device.type === 'desktop' && 3) || (device.type === 'table' && 2) || 1" rowHeight="5:3"
       gutterSize="20px">
-      <mat-grid-tile *ngFor="let movie of movies; trackBy: trackByMovieTitle" [colspan]="1" [rowspan]="1">
+      <mat-grid-tile *ngFor="let item of list; trackBy: trackByMovieID" [colspan]="1" [rowspan]="1">
         <mat-card>
           <mat-card-header>
-            <mat-card-title>{{ movie.title }}</mat-card-title>
-            <mat-card-subtitle>{{ movie.year }}</mat-card-subtitle>
-            <img mat-card-sm-image [src]="movie.image || '/assets/pic.jpeg'" [alt]="movie.title">
+            <mat-card-title>{{ item.title }}</mat-card-title>
+            <mat-card-subtitle>{{ item.year }}</mat-card-subtitle>
+            <img mat-card-sm-image [src]="item.image || '/assets/pic.jpeg'" [alt]="item.title">
           </mat-card-header>
           <mat-card-content>
-            <p class="desc">{{ movie.description || '简介加载中' }}</p>
+            <p class="desc">{{ item.description }}</p>
           </mat-card-content>
-          <mat-card-actions align="end">
-            <button mat-button (click)="download(movie.downloads)" [disabled]="!movie.downloads">下载</button>
-            <!-- <button mat-button *ngFor="let item of movie.download">
-              {{ item | json }}
-            </button> -->
-          </mat-card-actions>
+          <!-- <mat-card-actions align="end">
+            <button mat-button (click)="download(item.downloads)" [disabled]="!item.downloads">下载</button>
+          </mat-card-actions> -->
         </mat-card>
       </mat-grid-tile>
     </mat-grid-list>
   </div>
 
-  <div *ngIf="movies && movies.length === 0" class="none">
+  <div *ngIf="list && list.length === 0" class="none">
     <p class="desc">{{ keyword ? '什么也没找到' : '搜索在下面' }}</p>
     <p class="tip">{{ keyword ? '换个姿势搜搜看' : '试试 "人在囧途"' }}</p>
   </div>
 
-  <div *ngIf="movies === undefined" class="loading">
+  <div *ngIf="list === undefined" class="loading">
     <mat-spinner mode="indeterminate"></mat-spinner>
     <p class="desc">全力搜索中</p>
     <p class="tip">别着急，吃个鸡腿先</p>
@@ -44,7 +41,7 @@
     <mat-label>
       <i class="ri-movie-2-line"></i> <span>搜索电影</span>
     </mat-label>
-    <button mat-icon-button matSuffix (click)="search(input.value)" [disabled]="movies === undefined">
+    <button mat-icon-button matSuffix (click)="search(input.value)" [disabled]="list === undefined">
       <mat-icon>search</mat-icon>
     </button>
   </mat-form-field>

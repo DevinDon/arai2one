@@ -1,9 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Aria2Service } from 'src/app/service/aria2.service';
-import { Download } from 'src/app/service/crawler.service';
-import { AppService } from 'src/app/service/app.service';
 import { catchError } from 'rxjs/operators';
+import { AppService } from 'src/app/service/app.service';
+import { Aria2Service } from 'src/app/service/aria2.service';
+import { Download } from 'src/app/service/model';
 
 @Component({
   selector: 'app-download-dialog',

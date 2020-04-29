@@ -1,11 +1,11 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { of } from 'rxjs';
-import { catchError, switchMap, tap, timeout } from 'rxjs/operators';
+import { catchError, timeout } from 'rxjs/operators';
 import { AppService } from 'src/app/service/app.service';
 import { Aria2Service } from 'src/app/service/aria2.service';
-import { CrawlerService, Detail, Download, SearchResult } from 'src/app/service/crawler.service';
+import { Summary } from 'src/app/service/model';
+import { MovieService } from 'src/app/service/movie.service';
 import { Device } from 'src/app/util/device';
-import { DownloadDialogComponent } from 'src/app/component/download-dialog/download-dialog.component';
 
 @Component({
   selector: 'app-search',
@@ -18,12 +18,12 @@ export class SearchComponent implements OnInit {
 
   device: Device;
   keyword = '';
-  movies: SearchResult[] | Detail[] = [];
+  list: Summary[];
 
   constructor(
     private app: AppService,
     private aria2: Aria2Service,
-    private crawler: CrawlerService
+    private movie: MovieService
   ) { }
 
   ngOnInit() {
@@ -34,30 +34,17 @@ export class SearchComponent implements OnInit {
   search(keyword: string) {
     if (!keyword) { return; }
     this.keyword = keyword;
-    this.movies = undefined;
-    this.crawler.search(keyword)
+    this.list = undefined;
+    this.movie.search(keyword)
       .pipe(
-        timeout(5000),
-        catchError(e => {
-          this.app.openBar('请求超时，请重试。');
-          this.movies = [];
-          return of([]);
-        }),
-        tap(x => this.movies = x),
-        switchMap(e => this.crawler.searchDetails(keyword).pipe(timeout(30000)))
-      )
-      .subscribe(movies => this.movies = movies);
-    setTimeout(() => {
-      this.input.nativeElement.blur();
-    }, 100);
+        timeout(10 * 1000),
+        catchError(e => (this.app.openBar('服务器在开小差，再试试看', '好吧'), of([])))
+      ).subscribe(v => this.list = v);
+    setTimeout(() => this.input.nativeElement.blur(), 100);
   }
 
-  download(download: Download[]) {
-    this.app.openDialog(DownloadDialogComponent, { data: download });
-  }
-
-  trackByMovieTitle(index: number, movie: SearchResult): string {
-    return movie.title;
+  trackByMovieID(index: number, movie: { id: string }): string {
+    return movie.id;
   }
 
 }

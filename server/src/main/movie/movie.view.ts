@@ -15,7 +15,7 @@ export class MovieView {
   }
 
   @POST()
-  async searchDetails(
+  async getDetails(
     @RequestBody() ids: string[]
   ) {
     const details = await Promise.all(ids.map(id => this.controller.getDetail(id)));
