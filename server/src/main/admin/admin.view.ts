@@ -18,14 +18,14 @@ export class AdminView {
 
   @GET('fetch')
   async getFetchState() {
-    return this.fetchTotal;
+    return { state: `in processing at ${this.fetchTotal}` };
   }
 
   @PUT('fetch')
   async fetch() {
 
     if (this.fetchTotal !== 0) {
-      return { update: `processing ${this.fetchTotal}` };
+      return { state: `in processing at ${this.fetchTotal}` };
     }
 
     (async () => {
@@ -60,17 +60,21 @@ export class AdminView {
       }
     })();
 
-    return { update: new Date().toLocaleString() };
+    return { state: `starting update at ${new Date().toLocaleString()}` };
 
   }
 
   @GET('index')
   async getIndexState() {
-    return this.indexTotal;
+    return { state: `in processing at ${this.indexTotal}` };
   }
 
   @PUT('index')
   async index() {
+
+    if (this.indexTotal) {
+      return { state: `in processing at ${this.indexTotal}` };
+    }
 
     getMongoRepository(MovieEntity)
       .createEntityCursor()
@@ -96,6 +100,8 @@ export class AdminView {
             .then(v => logger.info(`Admin.index ${movie.id}: Insert movie index ${++this.indexTotal}`));
         }
       });
+
+    return { state: `starting index at ${new Date().toLocaleString()}` };
 
   }
 
