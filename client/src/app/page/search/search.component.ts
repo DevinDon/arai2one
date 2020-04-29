@@ -18,7 +18,7 @@ export class SearchComponent implements OnInit {
 
   device: Device;
   keyword = '';
-  list: Summary[];
+  list: Summary[] = [];
 
   constructor(
     private app: AppService,

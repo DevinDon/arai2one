@@ -9,7 +9,8 @@
           <mat-card-header>
             <mat-card-title>{{ item.title }}</mat-card-title>
             <mat-card-subtitle>{{ item.year }}</mat-card-subtitle>
-            <img mat-card-sm-image [src]="item.image || '/assets/pic.jpeg'" [alt]="item.title">
+            <img mat-card-sm-image [src]="item.image || '/assets/pic.jpeg'" [alt]="item.title"
+              onerror="this.src='/assets/pic.jpeg'">
           </mat-card-header>
           <mat-card-content>
             <p class="desc">{{ item.description }}</p>
