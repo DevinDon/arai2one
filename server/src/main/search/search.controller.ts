@@ -14,17 +14,20 @@ export class SearchController {
     const summaryFromDB = await SummaryEntity
       .find({
         where: {
-          title: { $regex: keyword }
+          title: { $regex: new RegExp(keyword) }
         }
       });
     // 数据库中有记录则返回
     if (summaryFromDB && summaryFromDB.length) {
-      logger.info(`${keyword}: Hit cache from summary`);
+      logger.info(`Search ${keyword}: Hit cache from summary`);
       return summaryFromDB;
     }
-    logger.info(`${keyword}: Crawler working for search`);
+    logger.info(`Search ${keyword}: Crawler working for search`);
     // 没有，尝试爬取豆瓣的搜索信息，目前只需要电影信息，顺带处理下格式
-    const summaryFromDouban = (await this.douban.search(keyword))
+    const summaryFromDouban = (
+      await this.douban.search(keyword)
+        .catch(e => (logger.error(`Search ${keyword}: Error when search douban, ${e.message}`), []))
+    )
       .filter(v => v.type === 'movie')
       .map<Summary>(v => ({
         id: v.id,
@@ -39,9 +42,10 @@ export class SearchController {
       }));
     // 整理数据，异步后台
     summaryFromDouban.map<Promise<Summary | undefined>>(async v => {
-      logger.info(`${keyword}: Get each movie.`);
+      logger.info(`Search ${keyword}: Get movie ${v.title}.`);
       // 尝试从数据库中获取电影信息，或者爬取
-      const movieFromDB = await this.movieController.getDetail(v.id).catch(e => logger.error(`${keyword}: `, e));
+      const movieFromDB = await this.movieController.getDetail(v.id)
+        .catch(e => logger.error(`Search ${keyword}: Error when fetch detail, ${e.message}`));
       // 存在电影信息，合并
       const summary = movieFromDB && {
         id: v.id,
@@ -59,10 +63,10 @@ export class SearchController {
         SummaryEntity.update({ id: summary.id }, summary)
           .then(v => {
             if (v.affected) {
-              logger.info(`${keyword}: Update summary with movie`);
+              logger.info(`Search ${keyword}: Update summary with movie`);
             } else {
               SummaryEntity.insert(summary)
-                .then(v => logger.info(`${keyword}: Insert summary with movie`));
+                .then(v => logger.info(`Search ${keyword}: Insert summary with movie`));
             }
           });
       }
@@ -70,6 +74,16 @@ export class SearchController {
     });
     // 只返回从豆瓣爬取的信息
     return summaryFromDouban;
+  }
+
+  async searchOnly(keyword: string): Promise<Summary[]> {
+    const summaryFromDB = await SummaryEntity
+      .find({
+        where: {
+          title: new RegExp(keyword)
+        }
+      });
+    return summaryFromDB;
   }
 
 }
