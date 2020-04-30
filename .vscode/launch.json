@@ -8,6 +8,10 @@
       "type": "node",
       "request": "launch",
       "name": "Debug - Server",
+      "console": "integratedTerminal",
+      "env": {
+        "MODE": "DEV"
+      },
       "runtimeArgs": [
         "-r",
         "ts-node/register"
