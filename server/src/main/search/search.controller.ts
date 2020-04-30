@@ -14,6 +14,16 @@ export class SearchController {
     const summaryFromDB = await SummaryEntity
       .find({
         where: {
+          title: new RegExp(keyword)
+        }
+      });
+    return summaryFromDB;
+  }
+
+  async searchAndFetch(keyword: string): Promise<Summary[]> {
+    const summaryFromDB = await SummaryEntity
+      .find({
+        where: {
           title: { $regex: new RegExp(keyword) }
         }
       });
@@ -74,16 +84,6 @@ export class SearchController {
     });
     // 只返回从豆瓣爬取的信息
     return summaryFromDouban;
-  }
-
-  async searchOnly(keyword: string): Promise<Summary[]> {
-    const summaryFromDB = await SummaryEntity
-      .find({
-        where: {
-          title: new RegExp(keyword)
-        }
-      });
-    return summaryFromDB;
   }
 
 }
